@@ -74,5 +74,5 @@ Con esta opción además podremos ver mucha más información útil como el ID, 
 Una vez que veamos que está correcta podemos eliminar los contenedores:
 - `docker rm -f web-nginx web-ngninx2`
 
-  > 💡[!NOTE]
+  > [!NOTE]
   > - `-f` para forzar. De esta forma evito tener que parar previamente el contenedor.
