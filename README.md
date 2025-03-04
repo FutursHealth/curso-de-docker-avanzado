@@ -46,7 +46,7 @@ Para poder trabajar durante el curso con nuestro repositorio de Docker HUB, lo p
 Primero levantaremos el contenedor como veníamos haciendo hasta ahora:
 - `docker run -d --name web-ngninx -p 81:80 nginx:alpine`
 
-  > [!RECORDATORIO]
+  > [💡RECORDATORIO]
   > - `-d` para correr en segundo plano
   > - Importante darle nombre al contenedor
   > - No puedo levantar contenedores que usen el mismo nombre que otro, aunque esté muerto
@@ -74,5 +74,5 @@ Con esta opción además podremos ver mucha más información útil como el ID, 
 Una vez que veamos que está correcta podemos eliminar los contenedores:
 - `docker rm -f web-nginx web-ngninx2`
 
-  > [!RECORDATORIO]
+  > [💡RECORDATORIO]
   > - `-f` para forzar. De esta forma evito tener que parar previamente el contenedor.
