@@ -192,3 +192,31 @@ Comprobamos de nuevo la aplicación y vemos que la conexión ya se ha establecid
 Podemos entrar dentro del contenedor de redis para monitorear los logs cada vez que escribamos algo en nuestro guestbook:  
 - `docker exec -it redis redis-cli`  
 - `monitor`
+
+# Ejercicio 4: Mi primer Docker Compose
+En este ejercicio crearemos nuestro primer Docker Compose en el que levantaremos los 2 servicios usados en el ejercicio anterior con un solo comando.  
+Deberemos especificar los servicios, los nombres de contenedor, las imagenes, los puertos, la red, etc.  
+
+Para ello deberemos conocer la estrucura de un **docker-compose.yml**:
+```docker-compose.yml
+services:
+  service_name:
+    container_name: name
+    image: image
+    ports:
+      - xxxx:xxxx
+    networks:
+      - name
+    depends_on:
+      - name
+
+  another_service_name:
+    container_name: name
+    image: image
+    networks:
+      - name
+
+networks:
+  name:
+    driver: bridge
+```
