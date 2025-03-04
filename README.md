@@ -142,3 +142,53 @@ Para usar la opción de Bind Mount, vamos a crear una carpeta que se llame **sta
 > [!Note]
 > Si queremos proteger los archivos del volumen para que sean solo lectura añadimos :ro al final:  
 > `docker run -d --name web-nginx -v $PWD/static:/usr/share/nginx/html:ro -p 81:80 nginx:alpine`
+
+# 📗 Ejercicio 3: Redes Docker
+En este ejercicio práctico aprenderás a usar las redes en Docker. Veremos los tipos de redes que hay, y su importancia para la conexión de los contenedores.
+
+### 1. Creación de red 
+Antes de crear nuestra propia red en Docker, vamos a echar un vistazo a lo que tenemos instalado por defecto. Para ello ejecutaremos el siguiente comando:  
+`docker network ls`
+
+Aquí podemos ver los 3 tipos de red que hay por defecto:
+- **Bridge:** la red por defecto. Se usa para que los contenedores puedan comunicarse. Se usa con mapeo de puertos (`-p`)
+- **Host:** la red del host directamente. No asigna IP al contenedor. No hay que redireccionar puertos.
+- **None:** el contenedor no tendría acceso a ninguna red. Para tareas seguras donde no necesitamos comunicación externa.
+
+Ahora si, crearemos nuestra primera red de docker:  
+- `docker network create prueba-red`
+- `docker network ls`
+
+### 2. Levantar aplicación
+Para este ejercicio hemos creado una imagen basada en un guestbook. Vamos a levantar una instancia de la aplicación para ver como funciona:  
+`docker run -d --name guest -p 8081:5000 cursodockerfuturs/guestbook:1.0.0`
+
+Comprobamos que la aplicación se ha levantado correctamente en la URL http://localhost:8081
+
+### 3. Levantar redis
+Como hemos visto, la aplicación se queda esperando una conexión. Para ello vamos a hacer uso de la herramienta Redis, con una imagen liviana basada en alpine. El puerto por defecto de la aplicación de Redis es el **6379**, pero como nosotros no necesitamos acceder, no mapearemos ningún puerto:  
+`docker run -d --name redis redis:alpine`
+
+Comprobamos de nuevo la aplicación para ver si engancha correctamente el Redis.
+
+**¿Qué ha pasado?**
+
+Vamos a eliminar los contenedores previamente creados para poder crearlos de nuevo correctamente:  
+`docker rm -f redis guest`
+
+### 4. Levantar aplicación y redis bajo misma red
+De nuevo, vamos a repetir los pasos 2 y 3, pero esta vez usando la red que hemos creado previamente en el paso 1.  
+Para ello primero levantaremos la aplicación:  
+`docker run -d --name guest --network prueba-red -p 8081:5000 cursodockerfuturs/guestbook:1.0.0`
+
+Comprobamos que la aplicación se ha levantado correctamente en la URL http://localhost:8081 y que está esperando una conexión.  
+
+Levantamos ahora nuestro servicio Redis bajo la misma red:  
+`docker run -d --name redis --network prueba-red redis:alpine`
+
+Comprobamos de nuevo la aplicación y vemos que la conexión ya se ha establecido.
+
+### Opcional
+Podemos entrar dentro del contenedor de redis para monitorear los logs cada vez que escribamos algo en nuestro guestbook:  
+- `docker exec -it redis redis-cli`  
+- `monitor`
