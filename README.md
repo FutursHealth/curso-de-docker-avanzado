@@ -53,20 +53,20 @@ Primero levantaremos el contenedor como veníamos haciendo hasta ahora:
 
 Accedemos a nuestra URL http://localhost:81 para comprobar nuestra aplicación web.
 
-Ahora vamos a levantar de nuevo el contenedor, pero asignandole una variable de entorno:
+Ahora vamos a levantar de nuevo el contenedor, pero asignandole una variable de entorno:  
 `docker run -d --name web-ngninx -e PRUEBA=1234 -p 81:80 nginx:alpine`
 
 Accedemos de nuevo a nuestra URL http://localhost:82 para comprobar nuestra aplicación web.
 
 Para poder consultar las variables de entorno que tenemos en nuestro contenedor, tenemos varias opciones:
 
-*Opción 1*
+*Opción 1*  
 Entramos al contenedor que hemos creado y mostramos las variables:
 - `docker exec -it web-ngninx2 sh`
 - `echo $PRUEBA`
 - `printenv`
 
-*Opción 2*
+*Opción 2*  
 Inspeccionamos el contenedor docker que hemos creado con el comando `docker inspect web-ngninx2`.
 Con esta opción además podremos ver mucha más información útil como el ID, argumentos que tiene, el estado del contenedor, la imagen, el puerto, los volumenes, variables de entorno, networking, etc...
 
