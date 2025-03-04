@@ -237,3 +237,17 @@ Inspecciona las imágenes en Docker Hub para averiguar lo necesario de dichas im
 ### Paso 2: Crea tu docker-compose.yml
 Del mismo modo que en el ejercicio anterior, crea tu archivo **docker-compose.yml** y cuando creas que lo tienes terminado, lanza el comando:  
 `docker-compose up`
+
+# Ejercicio 6: Voting-app
+En este último ejercicio vamos a crear una aplicación de votos. Para ello crearemos un **docker-compose.yml** con varios servicios, volumenes, redes, etc., que contenga todo lo visto anteriormente. Las imágenes que vamos a usar son las siguientes:  
+1. postgres
+2. redis
+3. dpage/pgadmin4
+4. cursodockerfuturs/voting-app
+
+### Datos necesarios
+Las variables de entorno para pgadmin son las siguientes:  
+```bash
+PGADMIN_DEFAULT_EMAIL: "prueba@gmail.com"
+PGADMIN_DEFAULT_PASSWORD: "prueba1234"
+```
