@@ -37,15 +37,17 @@ Comenzaremos realizando una búsqueda de la imagen que vamos a usar durante el c
 ### 2. Identificarnos en el registro
 Para poder trabajar durante el curso con nuestro repositorio de Docker HUB, lo primero que haremos será identificarnos en el repositorio. Como las credenciales se guardan en cache, quedaremos logeados para el resto de sesiones.
 
-- Registrate con tu usuario y contraseña de Docker Hub
+- Registrate con tu usuario y contraseña de Docker Hub  
 `docker login docker.io -u cursodockerfuturs`
 - Accede usando la contraseña proporcionada
 
 ### 3. Levantar el contenedor
 Primero levantaremos el contenedor como veníamos haciendo hasta ahora:
-- `docker run -d --name web-ngninx -p 81:80 nginx:alpine`
-
-  > 💡*RECORDATORIO*
+- `docker run -d --name web-ngninx -p 81:80 nginx:alpine`  
+  
+  
+  
+  > 💡**RECORDATORIO**
   > - `-d` para correr en segundo plano
   > - Importante darle nombre al contenedor
   > - No puedo levantar contenedores que usen el mismo nombre que otro, aunque esté muerto
@@ -56,21 +58,21 @@ Accedemos a nuestra URL http://localhost:81 para comprobar nuestra aplicación w
 Ahora vamos a levantar de nuevo el contenedor, pero asignandole una variable de entorno:  
 `docker run -d --name web-ngninx -e PRUEBA=1234 -p 81:80 nginx:alpine`
 
-Accedemos de nuevo a nuestra URL http://localhost:82 para comprobar nuestra aplicación web.
+Accedemos de nuevo a nuestra URL http://localhost:8X para comprobar nuestra aplicación web.
 
 Para poder consultar las variables de entorno que tenemos en nuestro contenedor, tenemos varias opciones:
 
-*Opción 1*  
+**Opción 1**  
 Entramos al contenedor que hemos creado y mostramos las variables:
-- `docker exec -it web-ngninx2 sh`
+- `docker exec -it web-ngninx sh`
 - `echo $PRUEBA`
 - `printenv`
 
-*Opción 2*  
-Inspeccionamos el contenedor docker que hemos creado con el comando `docker inspect web-ngninx2`.
+**Opción 2**  
+Inspeccionamos el contenedor docker que hemos creado con el comando `docker inspect web-ngninx2`.  
 Con esta opción además podremos ver mucha más información útil como el ID, argumentos que tiene, el estado del contenedor, la imagen, el puerto, los volumenes, variables de entorno, networking, etc...
 
-Una vez que veamos que está correcta podemos eliminar los contenedores:
+Una vez que veamos que está correcta podemos eliminar los contenedores:  
 - `docker rm -f web-nginx web-ngninx2`
 
 > [!Note]
@@ -85,7 +87,7 @@ Tambien aprenderemos a copiar archivos de mi local al contenedor y viceversa.
 Inspecciona la imagen [nginx](https://hub.docker.com/_/nginx) para determinar cual es la ruta donde guarda los datos estáticos. Esa ruta será la que nosotros usemos como volumen.
 
 ### 2. Levantar contenedor docker
-Ahora levantaremos un contenedor docker como hemos hecho en el ejercicio anterior:
+Ahora levantaremos un contenedor docker como hemos hecho en el ejercicio anterior:  
 - `docker run -d --name web-nginx -p 81:80 nginx:alpine`
 
 Comprobamos que se levanta la aplicación correctamente en http://localhost:81
@@ -103,7 +105,7 @@ Podemos recargar de nuevo nuestra aplicación para comprobar que se ha editado c
 ### 4. Terminar aplicación
 Ahora vamos a salir del contenedor y a borrarlo para crearlo de nuevo. (Paso 2)
 
-*¿Qué ha pasado?*
+**¿Qué ha pasado?**
 
 En este punto vemos la importancia de la persistencia de datos. Es por eso que en Docker solemos trabajar con volúmenes.
 
@@ -112,11 +114,12 @@ Primero vamos a crear un docker volume (host) y lo asociaremos a nuestra aplicac
 
 1. `docker volume create web`
 2. `docker volume web ls`
-3. Creamos de nuevo el contenedor: `docker run -d --name web-nginx -v web:/usr/share/nginx/html -p 81:80 nginx:alpine`
-4. Inspeccionamos la imagen para ver la parte *Mounts*: `docker inspect web-nginx`
+3. Creamos de nuevo el contenedor:  
+`docker run -d --name web-nginx -v web:/usr/share/nginx/html -p 81:80 nginx:alpine`
+4. Inspeccionamos la imagen para ver la parte **Mounts**: `docker inspect web-nginx`
 
 ### 6. Creamos un archivo local
-Ahora vamos a crear un archivo en local _*index.html*_ y lo vamos a copiar dentro de la ruta del contenedor.
+Ahora vamos a crear un archivo en local **index.html** y lo vamos a copiar dentro de la ruta del contenedor.
 
 1. `echo "<h1>hola desde contenedor</h1>" >index.html`
 2. `docker cp index.html web-ngninx:/usr/share/nginx/html`
@@ -129,7 +132,7 @@ Puedes hacer la prueba de crear un nuevo contenedor (usando otro nombre y otro p
 Si no vamos a usar más el volumen y queremos borrarlo: `docker volume rm web`
 
 ### 7. Bind Mount
-Para usar la opción de Bind Mount, vamos a crear una carpeta que se llame _*static*_ en nuestra ruta actual. Dentro de esa ruta copiaremos un nuevo archivo _*index.html*_ donde editaremos la información que aparecerá en la web. Luego crearemos el contenedor mapeando la nueva ruta e inspeccionaremos el tipo de volumen que aparece en el contenedor.
+Para usar la opción de Bind Mount, vamos a crear una carpeta que se llame **static** en nuestra ruta actual. Dentro de esa ruta copiaremos un nuevo archivo **index.html** donde editaremos la información que aparecerá en la web. Luego crearemos el contenedor mapeando la nueva ruta e inspeccionaremos el tipo de volumen que aparece en el contenedor.
 
 1. `mkdir static`
 2. `echo "<h1>hola desde Bind Mount</h1>" >static/index.html`
@@ -137,5 +140,5 @@ Para usar la opción de Bind Mount, vamos a crear una carpeta que se llame _*sta
 4. `docker inspect web-ngninx`
 
 > [!Note]
-> Si queremos proteger los archivos del volumen para que sean solo lectura añadimos :ro al final:
+> Si queremos proteger los archivos del volumen para que sean solo lectura añadimos :ro al final:  
 > `docker run -d --name web-nginx -v $PWD/static:/usr/share/nginx/html:ro -p 81:80 nginx:alpine`
