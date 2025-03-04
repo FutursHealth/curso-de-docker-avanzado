@@ -220,3 +220,20 @@ networks:
   name:
     driver: bridge
 ```
+
+Cuando tengas terminado el archivo **docker-compose.yml**, situate en el directorio donde lo tengas guardado y lanza el comando:  
+`docker compose up`
+
+# Ejercicio 5: creando mi herramienta de análisis de código
+En este ejercicio crearemos un servicio de SonarQube para análisis de código. Este servicio necesita una base de datos para funcionar. Es por ello que ahora vamos a poner en práctica todo lo aprendido anteriormente.  
+Necesitamos crear un **docker-compose.yaml** que contenga los dos servicios, bajo la misma red, y usando los volumenes necesarios. Deberemos seguir la misma estructura que en el ejercicio anterior.  
+Las imágenes que usaremos son las siguientes:
+1. postgres
+2. sonarqube
+
+### Paso 1: Inspeccionar imágenes
+Inspecciona las imágenes en Docker Hub para averiguar lo necesario de dichas imagenes.
+
+### Paso 2: Crea tu docker-compose.yml
+Del mismo modo que en el ejercicio anterior, crea tu archivo **docker-compose.yml** y cuando creas que lo tienes terminado, lanza el comando:  
+`docker-compose up`
