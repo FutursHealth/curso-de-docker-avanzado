@@ -251,3 +251,16 @@ Las variables de entorno para pgadmin son las siguientes:
 PGADMIN_DEFAULT_EMAIL: "prueba@gmail.com"
 PGADMIN_DEFAULT_PASSWORD: "prueba1234"
 ```
+
+### Uso de pgadmin
+
+1. Nos logeamos con las credenciales que hemos definido en el docker-compose.yml
+2. Click derecho en Servers > Register > Server
+3. Podemos darle el nombre que queramos
+4. En la parte de connections:
+  - Host name/address podemos usar el nombre del contenedor de postgres (db)
+  - Maintenance database: el que hayamos definido en el docker-compose.yml (postgres)
+  - Username: el que hayamos definido en el docker-compose.yml (postgres)
+  - Password: el que hayamos definido en el docker-compose.yml (postgres)
+5. Abrimos el servidor > Databases > postgres > Schemas > Tables > click derecho en 'votes' > 'View/Edit Data' > 'First 100 rows'
+6. Podemos ver la información de las columnas
