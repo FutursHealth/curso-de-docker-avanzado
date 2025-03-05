@@ -262,5 +262,5 @@ PGADMIN_DEFAULT_PASSWORD: "prueba1234"
   - Maintenance database: el que hayamos definido en el docker-compose.yml (postgres)
   - Username: el que hayamos definido en el docker-compose.yml (postgres)
   - Password: el que hayamos definido en el docker-compose.yml (postgres)
-5. Abrimos el servidor > Databases > postgres > Schemas > Tables > click derecho en 'votes' > 'View/Edit Data' > 'First 100 rows'
+5. Abrimos el servidor > Databases > postgres > Schemas > Tables > click derecho en *votes* > *View/Edit Data* > *First 100 rows*
 6. Podemos ver la información de las columnas
