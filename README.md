@@ -44,9 +44,7 @@ Para poder trabajar durante el curso con nuestro repositorio de Docker HUB, lo p
 ### 3. Levantar el contenedor
 Primero levantaremos el contenedor como veníamos haciendo hasta ahora:
 - `docker run -d --name web-ngninx -p 81:80 nginx:alpine`  
-  
-  
-  
+
   > 💡**RECORDATORIO**
   > - `-d` para correr en segundo plano
   > - Importante darle nombre al contenedor
@@ -57,6 +55,8 @@ Accedemos a nuestra URL http://localhost:81 para comprobar nuestra aplicación w
 
 Ahora vamos a levantar de nuevo el contenedor, pero asignandole una variable de entorno:  
 `docker run -d --name web-ngninx -e PRUEBA=1234 -p 81:80 nginx:alpine`
+
+>*¿No has podido?*
 
 Accedemos de nuevo a nuestra URL http://localhost:8X para comprobar nuestra aplicación web.
 
