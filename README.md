@@ -37,7 +37,7 @@ Comenzaremos realizando una búsqueda de la imagen que vamos a usar durante el c
 ### 2. Identificarnos en el registro
 Para poder trabajar durante el curso con nuestro repositorio de Docker HUB, lo primero que haremos será identificarnos en el repositorio. Como las credenciales se guardan en cache, quedaremos logeados para el resto de sesiones.
 
-- Registrate con tu usuario y contraseña de Docker Hub  
+- Regístrate con tu usuario y contraseña de Docker Hub  
 `docker login docker.io -u cursodockerfuturs`
 - Accede usando la contraseña proporcionada
 
@@ -53,7 +53,7 @@ Primero levantaremos el contenedor como veníamos haciendo hasta ahora:
 
 Accedemos a nuestra URL http://localhost:81 para comprobar nuestra aplicación web.
 
-Ahora vamos a levantar de nuevo el contenedor, pero asignandole una variable de entorno:  
+Ahora vamos a levantar de nuevo el contenedor, pero asignándole una variable de entorno:  
 `docker run -d --name web-ngninx -e PRUEBA=1234 -p 81:80 nginx:alpine`
 
 >*¿No has podido?*
@@ -64,13 +64,13 @@ Para poder consultar las variables de entorno que tenemos en nuestro contenedor,
 
 **Opción 1**  
 Entramos al contenedor que hemos creado y mostramos las variables:
-- `docker exec -it web-ngninx sh`
+- `docker exec -it web-ngninx2 sh`
 - `echo $PRUEBA`
 - `printenv`
 
 **Opción 2**  
 Inspeccionamos el contenedor docker que hemos creado con el comando `docker inspect web-ngninx2`.  
-Con esta opción además podremos ver mucha más información útil como el ID, argumentos que tiene, el estado del contenedor, la imagen, el puerto, los volumenes, variables de entorno, networking, etc...
+Con esta opción además podremos ver mucha más información útil como el ID, argumentos que tiene, el estado del contenedor, la imagen, el puerto, los volúmenes, variables de entorno, networking, etc...
 
 Una vez que veamos que está correcta podemos eliminar los contenedores:  
 - `docker rm -f web-nginx web-ngninx2`
@@ -80,11 +80,11 @@ Una vez que veamos que está correcta podemos eliminar los contenedores:
 
 # 📗 Ejercicio 2: Volúmenes Docker
 En este ejercicio práctico aprenderás a usar los volúmenes en Docker. Veremos las dos opciones disponibles: Docker Volume y Bind Mount.
-Al igual que en el ejercicio anterior, si no conocemos el contenedor que vamos a ejecutar, vamos a la documentación e identificamos los volumenes que usa.
-Tambien aprenderemos a copiar archivos de mi local al contenedor y viceversa.
+Al igual que en el ejercicio anterior, si no conocemos el contenedor que vamos a ejecutar, vamos a la documentación e identificamos los volúmenes que usa.
+También aprenderemos a copiar archivos de mi local al contenedor y viceversa.
 
 ### 1. Inspeccionar imagen ngninx
-Inspecciona la imagen [nginx](https://hub.docker.com/_/nginx) para determinar cual es la ruta donde guarda los datos estáticos. Esa ruta será la que nosotros usemos como volumen.
+Inspecciona la imagen [nginx](https://hub.docker.com/_/nginx) para determinar cuál es la ruta donde guarda los datos estáticos. Esa ruta será la que nosotros usemos como volumen.
 
 ### 2. Levantar contenedor docker
 Ahora levantaremos un contenedor docker como hemos hecho en el ejercicio anterior:  
@@ -160,7 +160,7 @@ Ahora si, crearemos nuestra primera red de docker:
 - `docker network ls`
 
 ### 2. Levantar aplicación
-Para este ejercicio hemos creado una imagen basada en un guestbook. Vamos a levantar una instancia de la aplicación para ver como funciona:  
+Para este ejercicio hemos creado una imagen basada en un guestbook. Vamos a levantar una instancia de la aplicación para ver cómo funciona:  
 `docker run -d --name guest -p 8081:5000 cursodockerfuturs/guestbook:1.0.0`
 
 Comprobamos que la aplicación se ha levantado correctamente en la URL http://localhost:8081
@@ -195,9 +195,9 @@ Podemos entrar dentro del contenedor de redis para monitorear los logs cada vez 
 
 # Ejercicio 4: Mi primer Docker Compose
 En este ejercicio crearemos nuestro primer Docker Compose en el que levantaremos los 2 servicios usados en el ejercicio anterior con un solo comando.  
-Deberemos especificar los servicios, los nombres de contenedor, las imagenes, los puertos, la red, etc.  
+Deberemos especificar los servicios, los nombres de contenedor, las imágenes, los puertos, la red, etc.  
 
-Para ello deberemos conocer la estrucura de un **docker-compose.yml**:
+Para ello deberemos conocer la estructura de un **docker-compose.yml**:
 ```docker-compose.yml
 services:
   service_name:
@@ -221,25 +221,25 @@ networks:
     driver: bridge
 ```
 
-Cuando tengas terminado el archivo **docker-compose.yml**, situate en el directorio donde lo tengas guardado y lanza el comando:  
+Cuando tengas terminado el archivo **docker-compose.yml**, sitúate en el directorio donde lo tengas guardado y lanza el comando:  
 `docker compose up`
 
 # Ejercicio 5: creando mi herramienta de análisis de código
 En este ejercicio crearemos un servicio de SonarQube para análisis de código. Este servicio necesita una base de datos para funcionar. Es por ello que ahora vamos a poner en práctica todo lo aprendido anteriormente.  
-Necesitamos crear un **docker-compose.yaml** que contenga los dos servicios, bajo la misma red, y usando los volumenes necesarios. Deberemos seguir la misma estructura que en el ejercicio anterior.  
+Necesitamos crear un **docker-compose.yaml** que contenga los dos servicios, bajo la misma red, y usando los volúmenes necesarios. Deberemos seguir la misma estructura que en el ejercicio anterior.  
 Las imágenes que usaremos son las siguientes:
 1. postgres
 2. sonarqube
 
 ### Paso 1: Inspeccionar imágenes
-Inspecciona las imágenes en Docker Hub para averiguar lo necesario de dichas imagenes.
+Inspecciona las imágenes en Docker Hub para averiguar lo necesario de dichas imágenes.
 
 ### Paso 2: Crea tu docker-compose.yml
 Del mismo modo que en el ejercicio anterior, crea tu archivo **docker-compose.yml** y cuando creas que lo tienes terminado, lanza el comando:  
 `docker-compose up`
 
 # Ejercicio 6: Voting-app
-En este último ejercicio vamos a crear una aplicación de votos. Para ello crearemos un **docker-compose.yml** con varios servicios, volumenes, redes, etc., que contenga todo lo visto anteriormente. Las imágenes que vamos a usar son las siguientes:  
+En este último ejercicio vamos a crear una aplicación de votos. Para ello crearemos un **docker-compose.yml** con varios servicios, volúmenes, redes, etc., que contenga todo lo visto anteriormente. Las imágenes que vamos a usar son las siguientes:  
 1. postgres
 2. redis
 3. dpage/pgadmin4
