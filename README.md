@@ -238,12 +238,22 @@ Inspecciona las imágenes en Docker Hub para averiguar lo necesario de dichas im
 Del mismo modo que en el ejercicio anterior, crea tu archivo **docker-compose.yml** y cuando creas que lo tienes terminado, lanza el comando:  
 `docker-compose up`
 
+### Datos necesarios
+Las variables de entorno para sonarqube son las siguientes:  
+```bash
+SONAR_JDBC_URL: jdbc:postgresql://db:5432/postgres
+SONAR_JDBC_USERNAME: postgres
+SONAR_JDBC_PASSWORD: postgres
+```
+
 # Ejercicio 6: Voting-app
 En este último ejercicio vamos a crear una aplicación de votos. Para ello crearemos un **docker-compose.yml** con varios servicios, volúmenes, redes, etc., que contenga todo lo visto anteriormente. Las imágenes que vamos a usar son las siguientes:  
 1. postgres
 2. redis
 3. dpage/pgadmin4
-4. cursodockerfuturs/voting-app
+4. cursodockerfuturs/voting-app:worker-1.0.0
+5. cursodockerfuturs/voting-app:result-2.0.0
+6. cursodockerfuturs/voting-app:vote-2.0.0
 
 ### Datos necesarios
 Las variables de entorno para pgadmin son las siguientes:  
