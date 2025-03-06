@@ -249,6 +249,7 @@ SONAR_JDBC_PASSWORD: postgres
 # Ejercicio 6: Voting-app
 En este último ejercicio vamos a crear una aplicación de votos. Para ello crearemos un **docker-compose.yml** con varios servicios, volúmenes, redes, etc., que contenga todo lo visto anteriormente.  
 El diagrama de la aplicación es el siguiente:  
+   
 ![alt text](voting-app.drawio.png)
 
 Las imágenes que vamos a usar son las siguientes:  
