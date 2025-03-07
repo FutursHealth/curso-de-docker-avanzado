@@ -281,3 +281,107 @@ PGADMIN_DEFAULT_PASSWORD: "prueba1234"
   - Password: el que hayamos definido en el docker-compose.yml (postgres)
 5. Abrimos el servidor > Databases > postgres > Schemas > Tables > click derecho en *votes* > *View/Edit Data* > *First 100 rows*
 6. Podemos ver la información de las columnas
+
+# 📚 5 - Seguridad  
+## 📗 5.1 - Aislamiento de Namespaces en Docker  
+Con este ejercicio vamos a entender cómo Docker usa namespaces para aislar procesos y recursos entre contenedores y el host.  
+Los *namespaces* en Docker permiten aislar diferentes aspectos del sistema para proporcionar entornos independientes y seguros para los contenedores. A continuación, se detallan los principales *namespaces* y su función dentro de Docker:  
+
+| Namespace | Función | Ejemplo en Docker |
+|-----------|---------|------------------|
+| **PID** | Aisla procesos entre el contenedor y el host. | Un contenedor no puede ver ni gestionar procesos del host. |
+| **Mount** | Aisla el sistema de archivos. | Cada contenedor tiene su propia vista del sistema de archivos. |
+| **Network** | Aisla interfaces de red. | Cada contenedor tiene su propia IP y configuración de red. |
+| **User** | Aisla los usuarios dentro del contenedor. | Permite mapear usuarios del contenedor a usuarios sin privilegios en el host. |
+| **UTS** | Aisla nombres de host. | Un contenedor puede tener su propio hostname sin afectar al host. |
+| **IPC** | Aisla la memoria compartida entre procesos. | Un contenedor no puede acceder a la memoria compartida de otro. |
+
+Cada uno de estos *namespaces* contribuye a la seguridad y aislamiento de los contenedores en Docker, permitiendo ejecutar múltiples aplicaciones en un mismo host sin interferencias entre ellas.  
+
+### 1. Ejecutamos un contenedor en segundo plano con un proceso "infinito"  
+```bash
+docker run -d --name test-container ubuntu sleep 600
+```
+### 2. Vemos los procesos dentro del contenedor
+```bash
+docker exec -it test-container ps aux
+```
+### 3. Intenemos encontrar ese proceso en el host
+```bash
+Get-Process | Where-Object {$_.ProcessName -like "*sleep*"}
+```
+⚠️ **El proceso NO aparecerá en el host**, porque está en un **namespace de PID separado**.  
+### 4. Verificamos el namespace del contenedor
+```bash
+docker inspect --format '{{ .State.Pid }}' test-container
+```
+Esto devolverá el **PID en el host**, que es distinto del PID dentro del contenedor.  
+### 5. Ahora buscamos ese PID en el host (necesitaremos hacerlo a través de WSL)
+```bash
+wsl  
+ps aux | grep <pid-paso4>
+```  
+Ahora podremos ver que efectivamente existe un PID de host reservado para la ejecución de los PIDs internos del contenedor.  
+
+## 📗 5.2 - Análisis de Dockerfile con Hadolint  
+Con este ejercicio vamos a detectar **malas prácticas** en la construcción de imágenes Docker.  
+### 1. Creamos un archivo Dockerfile con problemas de seguridad o usamos algunos que ya tengamos  
+```Dockerfile
+FROM ubuntu:latest
+RUN apt-get update && apt-get install -y curl
+CMD ["bash"]
+```
+### 2. Ejecutamos Hadolint dentro de un contenedor  
+Powershell console
+```pwsh
+Get-Content Dockerfile | docker run --rm -i hadolint/hadolint
+```  
+WSL console
+```bash
+docker run --rm -i hadolint/hadolint < Dockerfile
+```  
+### 2. Analizamos los resultados  
+* **DL3007 warning:** `FROM ubuntu:latest` usa `latest`, lo que puede generar inconsistencias cuando la imagen se actualiza.  
+**Solución**: Especificar una versión concreta, como `ubuntu:22.04`.  
+* **DL3008 warning:** `apt-get install` no especifica una versión exacta de los paquetes, lo que puede traer actualizaciones inesperadas.  
+**Solución:** Definir una versión explícita con `apt-get install <package>=<version>`.  
+* **DL3015 info:** `apt-get install` instala paquetes recomendados por defecto, lo que puede traer dependencias innecesarias.  
+**Solución:** Agregar `--no-install-recommends` para evitar instalar paquetes no esenciales.  
+* **DL3009 info:** No se eliminan las listas de paquetes después de la instalación, lo que aumenta el tamaño de la imagen.  
+**Solución:** Ejecutar `rm -rf /var/lib/apt/lists/*` para limpiar archivos innecesarios.
+
+Con esta info ya podemos corregir nuestro Dockerfile aplicando todas las buenas prácticas. Quedando algo así:
+```Dockerfile
+FROM ubuntu:22.04
+
+# Evitamos problemas de dependencias bloqueando la interacción del usuario
+ARG DEBIAN_FRONTEND=noninteractive
+
+# Instalamos paquetes con versiones fijas, sin recomendaciones adicionales y limpiando listas
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends curl=7.81.0-1ubuntu1.10 && \
+    rm -rf /var/lib/apt/lists/*
+
+# Usamos un usuario no root para mejorar la seguridad
+RUN useradd -m appuser
+USER appuser
+
+CMD ["bash"]
+```  
+
+
+
+
+
+## 📗 5.3 - Análisis de Vulnerabilidades en Imágenes Docker con Trivy  
+Con este ejercicio vamos a escanear una imagen Docker en busca de vulnerabilidades, este servicio lo ejecutaremos dentro de un contenedor.  
+### 1. Ejecutaremos Trivy desde un contenedor para analizar una imagen  
+```bash
+docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image nginx:latest
+```
+### 2. Analizamos los resultados  
+* Se mostrarán vulnerabilidades detectadas, clasificadas por severidad.
+* Si aparecen vulnerabilidades críticas, buscar una versión más segura de la imagen.
+
+
+
