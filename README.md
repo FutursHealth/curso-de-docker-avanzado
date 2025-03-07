@@ -193,7 +193,7 @@ Podemos entrar dentro del contenedor de redis para monitorear los logs cada vez 
 - `docker exec -it redis redis-cli`  
 - `monitor`
 
-# Ejercicio 4: Mi primer Docker Compose
+# 📗 Ejercicio 4: Mi primer Docker Compose
 En este ejercicio crearemos nuestro primer Docker Compose en el que levantaremos los 2 servicios usados en el ejercicio anterior con un solo comando.  
 Deberemos especificar los servicios, los nombres de contenedor, las imágenes, los puertos, la red, etc.  
 
@@ -224,7 +224,7 @@ networks:
 Cuando tengas terminado el archivo **docker-compose.yml**, sitúate en el directorio donde lo tengas guardado y lanza el comando:  
 `docker compose up`
 
-# Ejercicio 5: creando mi herramienta de análisis de código
+# 📗 Ejercicio 5: creando mi herramienta de análisis de código
 En este ejercicio crearemos un servicio de SonarQube para análisis de código. Este servicio necesita una base de datos para funcionar. Es por ello que ahora vamos a poner en práctica todo lo aprendido anteriormente.  
 Necesitamos crear un **docker-compose.yaml** que contenga los dos servicios, bajo la misma red, y usando los volúmenes necesarios. Deberemos seguir la misma estructura que en el ejercicio anterior.  
 Las imágenes que usaremos son las siguientes:
@@ -246,7 +246,7 @@ SONAR_JDBC_USERNAME: postgres
 SONAR_JDBC_PASSWORD: postgres
 ```
 
-# Ejercicio 6: Voting-app
+# 📗 Ejercicio 6: Voting-app
 En este último ejercicio vamos a crear una aplicación de votos. Para ello crearemos un **docker-compose.yml** con varios servicios, volúmenes, redes, etc., que contenga todo lo visto anteriormente.  
     
 El diagrama de la aplicación es el siguiente:  
