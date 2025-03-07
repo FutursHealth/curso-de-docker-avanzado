@@ -490,6 +490,11 @@ Si todo funciona bien, se verán los logs recibidos desde `app-logs`.
 ```powershell
 docker stop fluentd app-logs && docker rm fluentd app-logs
 ```
+⚠️ En este paso nos hemos encontrado que con Docker Desktop for Windows en muchas ocasiones se colgaba intentando parar el contenedor de `app-logs`, si se diera el paso lo que tenemos que hacer es **reiniciar el engine** y ambos contenedores quedarán parados y listos para ser eliminados.  
+![image](https://github.com/user-attachments/assets/9e997eb7-ad99-406d-bf00-3c754c342a63)  
+
+
+
 
 
 
