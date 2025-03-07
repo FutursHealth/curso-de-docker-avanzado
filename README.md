@@ -298,25 +298,26 @@ Los *namespaces* en Docker permiten aislar diferentes aspectos del sistema para 
 
 Cada uno de estos *namespaces* contribuye a la seguridad y aislamiento de los contenedores en Docker, permitiendo ejecutar múltiples aplicaciones en un mismo host sin interferencias entre ellas.  
 
-### 1. Ejecutamos un contenedor en segundo plano con un proceso "infinito"  
+**1. Ejecutamos un contenedor en segundo plano con un proceso "infinito"**  
 ```bash
-docker run -d --name test-container ubuntu sleep 600
+docker run -d --name test-namespaces ubuntu sleep 600
 ```
-### 2. Vemos los procesos dentro del contenedor
+**2. Vemos los procesos dentro del contenedor**  
 ```bash
-docker exec -it test-container ps aux
+docker exec -it test-namespaces ps aux
 ```
-### 3. Intenemos encontrar ese proceso en el host
+**3. Intenemos encontrar ese proceso en el host**  
 ```bash
 Get-Process | Where-Object {$_.ProcessName -like "*sleep*"}
 ```
 ⚠️ **El proceso NO aparecerá en el host**, porque está en un **namespace de PID separado**.  
-### 4. Verificamos el namespace del contenedor
+  
+**4. Verificamos el namespace del contenedor**  
 ```bash
-docker inspect --format '{{ .State.Pid }}' test-container
+docker inspect --format '{{ .State.Pid }}' test-namespaces
 ```
 Esto devolverá el **PID en el host**, que es distinto del PID dentro del contenedor.  
-### 5. Ahora buscamos ese PID en el host (necesitaremos hacerlo a través de WSL)
+**5. Ahora buscamos ese PID en el host (necesitaremos hacerlo a través de WSL)**  
 ```bash
 wsl  
 ps aux | grep <pid-paso4>
@@ -325,13 +326,13 @@ Ahora podremos ver que efectivamente existe un PID de host reservado para la eje
 
 ## 📗 5.2 - Análisis de Dockerfile con Hadolint  
 Con este ejercicio vamos a detectar **malas prácticas** en la construcción de imágenes Docker.  
-### 1. Creamos un archivo Dockerfile con problemas de seguridad o usamos algunos que ya tengamos  
+**1. Creamos un archivo Dockerfile con problemas de seguridad o usamos algunos que ya tengamos**  
 ```Dockerfile
 FROM ubuntu:latest
 RUN apt-get update && apt-get install -y curl
 CMD ["bash"]
 ```
-### 2. Ejecutamos Hadolint dentro de un contenedor  
+**2. Ejecutamos Hadolint dentro de un contenedor**  
 Powershell console
 ```pwsh
 Get-Content Dockerfile | docker run --rm -i hadolint/hadolint
@@ -340,7 +341,7 @@ WSL console
 ```bash
 docker run --rm -i hadolint/hadolint < Dockerfile
 ```  
-### 2. Analizamos los resultados  
+**3. Analizamos los resultados**  
 * **DL3007 warning:** `FROM ubuntu:latest` usa `latest`, lo que puede generar inconsistencias cuando la imagen se actualiza.  
 **Solución**: Especificar una versión concreta, como `ubuntu:22.04`.  
 * **DL3008 warning:** `apt-get install` no especifica una versión exacta de los paquetes, lo que puede traer actualizaciones inesperadas.  
@@ -348,8 +349,8 @@ docker run --rm -i hadolint/hadolint < Dockerfile
 * **DL3015 info:** `apt-get install` instala paquetes recomendados por defecto, lo que puede traer dependencias innecesarias.  
 **Solución:** Agregar `--no-install-recommends` para evitar instalar paquetes no esenciales.  
 * **DL3009 info:** No se eliminan las listas de paquetes después de la instalación, lo que aumenta el tamaño de la imagen.  
-**Solución:** Ejecutar `rm -rf /var/lib/apt/lists/*` para limpiar archivos innecesarios.
-
+**Solución:** Ejecutar `rm -rf /var/lib/apt/lists/*` para limpiar archivos innecesarios.  
+  
 Con esta info ya podemos corregir nuestro Dockerfile aplicando todas las buenas prácticas. Quedando algo así:
 ```Dockerfile
 FROM ubuntu:22.04
@@ -369,10 +370,6 @@ USER appuser
 CMD ["bash"]
 ```  
 
-
-
-
-
 ## 📗 5.3 - Análisis de Vulnerabilidades en Imágenes Docker con Trivy  
 Con este ejercicio vamos a escanear una imagen Docker en busca de vulnerabilidades, este servicio lo ejecutaremos dentro de un contenedor.  
 ### 1. Ejecutaremos Trivy desde un contenedor para analizar una imagen  
@@ -382,6 +379,118 @@ docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image
 ### 2. Analizamos los resultados  
 * Se mostrarán vulnerabilidades detectadas, clasificadas por severidad.
 * Si aparecen vulnerabilidades críticas, buscar una versión más segura de la imagen.
+
+# 📚 6 - Monitoring & Logging  
+## 📗 6.1 - Supervisar el uso de recursos de un contenedor con `docker stats`  
+Con este ejercicio vamos a aprender a monitorear el consumo de CPU, memoria, red y disco de un contenedor en tiempo real.  
+
+**1. Ejecutamos un contenedor con una carga artificial.**  
+   ```powershell
+   docker run -d --name test-monitoring ubuntu sh -c "while true; do echo 'Cargando CPU...'; done"
+   ```  
+**2. Ahora nos abrimos una nueva ventana de powershell y ejecutamos el siguiente comando:**  
+   ```powershell
+   docker stats test-monitoring
+   ```
+   Se mostrará información en tiempo real sobre el uso de **CPU, memoria, red y disco** del contenedor.  
+**3. Por último, detenemos el contenedor y verificamos que desaparece del monitoreo:**   
+   ```powershell
+   docker stop test-monitoring && docker rm test-monitoring
+   ```
+Como hemos podido comprobar, `docker stats` es útil para **detectar contenedores que consumen demasiados recursos**, lo que podría afectar al rendimiento del sistema.  
+
+## 📗 6.2 - Monitoreo avanzado con cAdvisor  
+Con este ejercicio vamos a aprender a ejecutar cAdvisor para obtener métricas detalladas sobre todos los contenedores.  
+  
+**1. Ejecutamos cAdvisor en un contenedor Docker**  
+   ```powershell
+   docker run -d --name=cadvisor -p 8080:8080 --volume=/var/run/docker.sock:/var/run/docker.sock gcr.io/cadvisor/cadvisor
+   ```  
+**2. Abrimos el navegador y accedemos a `http://localhost:8080`**  
+   Se mostrarán gráficos con **CPU, memoria, red y disco** de todos los contenedores.  
+   
+**3. Probamos con otro contenedor para ver cómo cambian las métricas:**  
+   ```powershell
+   docker run -d --name stress-container ubuntu sh -c "while true; do echo 'Usando CPU'; done"
+   ```
+**4. Detenemos y eliminamos los contenedores**  
+   ```powershell
+   docker stop cadvisor stress-container && docker rm cadvisor stress-container
+   ```
+
+## 📗 6.3 - Gestión de logs en Docker  
+Con este ejercicio aprenderemos a obtener y manejar logs de contenedores en ejecución.  
+  
+**1. Ejecutamos un contenedor que genera logs continuamente:**  
+```powershell
+docker run -d --name logger-container ubuntu sh -c "while true; do echo 'Log generado en: ' \$(date); sleep 2; done"
+```  
+**2. Vemos los logs en tiempo real:**  
+```powershell
+docker logs -f logger-container
+```
+💡 Explicación:
+* `-f` permite seguir los logs en tiempo real, como `tail -f` en Linux.
+
+**3. Detenemos el seguimiento de logs** (presionar `CTRL + C`).  
+**4. Guardamos los logs en un archivo de texto:**  
+```powershell
+docker logs logger-container > logs.txt
+```
+**5. Eliminamos el contenedor:**  
+```powershell
+docker stop logger-container && docker rm logger-container
+```
+Como podemos ver, Docker almacena logs por defecto en **JSON**, pero podemos acceder a ellos en tiempo real o guardarlos en archivos para análisis posterior.  
+
+## 📗 6.4 - Centralización de logs con Fluentd   
+Con este ejercicio aprenderemos a enviar logs de Docker a Fluentd para análisis centralizado.  
+
+**1. Crearemos un archivo de configuración `fluent.conf`**  
+```powershell
+New-Item -ItemType Directory -Path $PWD\fluentd
+Set-Content -Path $PWD\fluentd\fluent.conf -Value @"
+<source>
+  @type forward
+  port 24224
+  bind 0.0.0.0
+</source>
+
+<filter **>
+  @type record_transformer
+  <record>
+    container_name \${tag}
+  </record>
+</filter>
+
+<match **>
+  @type stdout
+</match>
+"@
+```
+💡 Esto configura Fluentd para escuchar en el puerto `24224` y **mostrar en consola** los logs que recibe con la etiqueta `docker.**`.  
+
+**2. Ejecutaremos un contenedor de Fluentd con archivo de configuración creado**  
+```powershell
+docker run -d --name fluentd -p 24224:24224 -v ${PWD}\fluentd:/fluentd/etc fluent/fluentd:v1.16-debian-2
+```  
+**3. Ejecutaremos un contenedor configurado para enviar logs a Fluentd:**  
+```powershell
+docker run -d --name app-logs --log-driver=fluentd --log-opt tag="app-container" --log-opt fluentd-address=localhost:24224 ubuntu sh -c "while true; do echo 'Log desde contenedor' ; sleep 2; done"
+```
+💡 **Esto enviará logs a Fluentd** en `localhost:24224`.  
+
+**4. Comprobaremos que Fluentd está recibiendo los logs:**  
+```powershell
+docker logs fluentd
+```
+Si todo funciona bien, se verán los logs recibidos desde `app-logs`.  
+
+**5. Detenemos y eliminamos los contenedores:**  
+```powershell
+docker stop fluentd app-logs && docker rm fluentd app-logs
+```
+
 
 
 
