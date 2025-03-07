@@ -1,0 +1,55 @@
+version: '3.8'
+services:
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor
+    deploy:
+      mode: global
+    ports:
+      - target: 8080
+        published: 8081
+        mode: host
+    networks:
+      - monitoring
+
+  node-exporter:
+    image: prom/node-exporter
+    deploy:
+      mode: global
+    ports:
+      - target: 9100
+        published: 9100
+        mode: host
+    networks:
+      - monitoring
+
+  prometheus:
+    image: prom/prometheus
+    deploy:
+      replicas: 1
+    ports:
+      - target: 9090
+        published: 9090
+        mode: host
+    volumes:
+      - prometheus_data:/prometheus
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - monitoring
+
+  grafana:
+    image: grafana/grafana
+    deploy:
+      replicas: 1
+    ports:
+      - target: 3000
+        published: 3000
+        mode: host
+    networks:
+      - monitoring
+
+networks:
+  monitoring:
+    driver: overlay
+
+volumes:
+  prometheus_data:

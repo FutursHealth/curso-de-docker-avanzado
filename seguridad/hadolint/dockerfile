@@ -1,0 +1,15 @@
+FROM ubuntu:22.04
+
+# Evitamos problemas de dependencias bloqueando la interacción del usuario
+ARG DEBIAN_FRONTEND=noninteractive
+
+# Instalamos paquetes con versiones fijas, sin recomendaciones adicionales y limpiando listas
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends curl=7.81.0-1ubuntu1.10 && \
+    rm -rf /var/lib/apt/lists/*
+
+# Usamos un usuario no root para mejorar la seguridad
+RUN useradd -m appuser
+USER appuser
+
+CMD ["bash"]
