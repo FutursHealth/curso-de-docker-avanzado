@@ -468,7 +468,7 @@ Set-Content -Path $PWD\fluentd\fluent.conf -Value @"
 </match>
 "@
 ```
-💡 Esto configura Fluentd para escuchar en el puerto `24224` y **mostrar en consola** los logs que recibe con la etiqueta `docker.**`.  
+💡 Esto configura Fluentd para escuchar en el puerto `24224`, transforme los registros para incluir el nombre del contenedor y **muestre en consola** cualquier log (**) y lo **manda a la salida stándar (stdout)**.  
 
 **2. Ejecutaremos un contenedor de Fluentd con archivo de configuración creado**  
 ```powershell
