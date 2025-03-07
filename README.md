@@ -28,7 +28,7 @@ En caso de **no tener Git instalado** también puedes descargarte el repositorio
 
   Esto descargará los archivos del proyecto en tu directorio actual.
 
-# 📗 Ejercicio 1: Variables de entorno
+# 📗 1- Ejercicio Variables de entorno
 En este ejercicio práctico aprenderás a usar las variables de entorno en Docker. Veremos además, como consultar las variables que tiene nuestro contenedor, tanto las que nosotros le indiquemos como las que vengan de base en la imagen.
 
 ### 1. Inspeccionar imagen ngninx
@@ -78,7 +78,7 @@ Una vez que veamos que está correcta podemos eliminar los contenedores:
 > [!Note]
 > - `-f` para forzar. De esta forma evito tener que parar previamente el contenedor.
 
-# 📗 Ejercicio 2: Volúmenes Docker
+# 📗 2- Ejercicio Volúmenes Docker
 En este ejercicio práctico aprenderás a usar los volúmenes en Docker. Veremos las dos opciones disponibles: Docker Volume y Bind Mount.
 Al igual que en el ejercicio anterior, si no conocemos el contenedor que vamos a ejecutar, vamos a la documentación e identificamos los volúmenes que usa.
 También aprenderemos a copiar archivos de mi local al contenedor y viceversa.
@@ -143,7 +143,7 @@ Para usar la opción de Bind Mount, vamos a crear una carpeta que se llame **sta
 > Si queremos proteger los archivos del volumen para que sean solo lectura añadimos :ro al final:  
 > `docker run -d --name web-nginx -v $PWD/static:/usr/share/nginx/html:ro -p 81:80 nginx:alpine`
 
-# 📗 Ejercicio 3: Redes Docker
+# 📗 3 - Ejercicio Redes Docker
 En este ejercicio práctico aprenderás a usar las redes en Docker. Veremos los tipos de redes que hay, y su importancia para la conexión de los contenedores.
 
 ### 1. Creación de red 
@@ -193,7 +193,8 @@ Podemos entrar dentro del contenedor de redis para monitorear los logs cada vez 
 - `docker exec -it redis redis-cli`  
 - `monitor`
 
-# 📗 Ejercicio 4: Mi primer Docker Compose
+# 📚 4 - Ejercicios con Docker Compose
+## 📗 4.1 - Mi primer Docker Compose
 En este ejercicio crearemos nuestro primer Docker Compose en el que levantaremos los 2 servicios usados en el ejercicio anterior con un solo comando.  
 Deberemos especificar los servicios, los nombres de contenedor, las imágenes, los puertos, la red, etc.  
 
@@ -224,7 +225,7 @@ networks:
 Cuando tengas terminado el archivo **docker-compose.yml**, sitúate en el directorio donde lo tengas guardado y lanza el comando:  
 `docker compose up`
 
-# 📗 Ejercicio 5: creando mi herramienta de análisis de código
+## 📗 4.2 - Creando mi herramienta de análisis de código
 En este ejercicio crearemos un servicio de SonarQube para análisis de código. Este servicio necesita una base de datos para funcionar. Es por ello que ahora vamos a poner en práctica todo lo aprendido anteriormente.  
 Necesitamos crear un **docker-compose.yaml** que contenga los dos servicios, bajo la misma red, y usando los volúmenes necesarios. Deberemos seguir la misma estructura que en el ejercicio anterior.  
 Las imágenes que usaremos son las siguientes:
@@ -246,7 +247,7 @@ SONAR_JDBC_USERNAME: postgres
 SONAR_JDBC_PASSWORD: postgres
 ```
 
-# 📗 Ejercicio 6: Voting-app
+## 📗 4.3 - Voting-app
 En este último ejercicio vamos a crear una aplicación de votos. Para ello crearemos un **docker-compose.yml** con varios servicios, volúmenes, redes, etc., que contenga todo lo visto anteriormente.  
     
 El diagrama de la aplicación es el siguiente:  
