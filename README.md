@@ -322,6 +322,7 @@ ps aux | grep <pid-paso4>
 Ahora podremos ver que efectivamente existe un PID de host reservado para la ejecución de los PIDs internos del contenedor.  
 
 ## 📗 5.2 - Análisis de Dockerfile con Hadolint  
+
 Con este ejercicio vamos a detectar **malas prácticas** en la construcción de imágenes Docker.  
 **1. Creamos un archivo Dockerfile con problemas de seguridad o usamos algunos que ya tengamos**  
 ```Dockerfile
@@ -348,7 +349,8 @@ docker run --rm -i hadolint/hadolint < Dockerfile
 * **DL3009 info:** No se eliminan las listas de paquetes después de la instalación, lo que aumenta el tamaño de la imagen.  
 **Solución:** Ejecutar `rm -rf /var/lib/apt/lists/*` para limpiar archivos innecesarios.  
   
-Con esta info ya podemos corregir nuestro Dockerfile aplicando todas las buenas prácticas. Quedando algo así:
+Con esta info ya podemos corregir nuestro Dockerfile aplicando todas las buenas prácticas. Quedando algo así:  
+**📂 `/5.2_hadolint/`**  
 ```Dockerfile
 FROM ubuntu:22.04
 
@@ -443,10 +445,9 @@ Como podemos ver, Docker almacena logs por defecto en **JSON**, pero podemos acc
 ## 📗 6.4 - Centralización de logs con Fluentd   
 Con este ejercicio aprenderemos a enviar logs de Docker a Fluentd para análisis centralizado.  
 
-**1. Crearemos un archivo de configuración `fluent.conf`**  
-```powershell
-New-Item -ItemType Directory -Path $PWD\fluentd
-Set-Content -Path $PWD\fluentd\fluent.conf -Value @"
+**1. Usaremos el archivo de configuración `fluent.conf`**  
+**📂 `/6.4_fluentd/`**  
+```bash
 <source>
   @type forward
   port 24224
@@ -464,12 +465,12 @@ Set-Content -Path $PWD\fluentd\fluent.conf -Value @"
   @type stdout
 </match>
 "@
-```
+```  
 💡 Esto configura Fluentd para escuchar en el puerto `24224`, transforme los registros para incluir el nombre del contenedor y **muestre en consola** cualquier log (**) y lo **manda a la salida stándar (stdout)**.  
 
 **2. Ejecutaremos un contenedor de Fluentd con archivo de configuración creado**  
 ```powershell
-docker run -d --name fluentd -p 24224:24224 -v ${PWD}\fluentd:/fluentd/etc fluent/fluentd:v1.16-debian-2
+docker run -d --name fluentd -p 24224:24224 -v ${PWD}\6.4_fluentd:/fluentd/etc fluent/fluentd:v1.16-debian-2
 ```  
 **3. Ejecutaremos un contenedor configurado para enviar logs a Fluentd:**  
 ```powershell
@@ -490,9 +491,141 @@ docker stop fluentd app-logs && docker rm fluentd app-logs
 ⚠️ En este paso nos hemos encontrado que con Docker Desktop for Windows en muchas ocasiones se colgaba intentando parar el contenedor de `app-logs`, si se diera el paso lo que tenemos que hacer es **reiniciar el engine** y ambos contenedores quedarán parados y listos para ser eliminados.  
 ![Restart_Engine](/0.0_resources/docker_desktop.png)  
 
+# 📚 7 - Sistemas distribuidos y de clustering
+En este último módulo del curso de **Docker Avanzado** hemos aprendido qué son los sitemas distribuidos y de clustering, cuáles son los mas famosos, y qué beneficios nos aportan a la hora de trabajar con contenedores.  
+Dado que enseñar algún sistema como pueden ser **Service Fabric** o **Kubernetes** daría para otro curso entero, no queremos terminar este sin tener una primera aproximación usando una herramienta nativa de los propios desarrolladores de Docker, **Docker Swarm**.  
 
+📌 ¿Por qué Swarm para empezar?  
+- Está **integrado en Docker** (no requiere instalar nada adicional).  
+- Es más **fácil de aprender** que Kubernetes.  
+- Permite hacer un **clúster en minutos** con comandos simples.  
 
+🔹 Conceptos clave en Swarm:  
+- **Manager:** Nodo que coordina el clúster.  
+- **Worker:** Nodos que ejecutan los contenedores.  
+- **Service:** Definición de qué contenedor se ejecuta y cuántas réplicas.  
 
+## 📗 7.1 - Iniciar un clúster Docker Swarm en local  
+Con este ejercicio aprenderemos a configurar un clúster **Docker Swarm** en un solo nodo (modo desarrollo).  
 
+**1. Inicializamos Docker Swarm**  
+```powershell
+docker swarm init
+```
+✅ Esto convierte tu máquina en el **Manager** del clúster.  
 
+Para comprobar el estado del clúster:  
+```powershell
+docker info | Select-String "Swarm"
+```
+🔹 Salida esperada: `Swarm: active`  
 
+## 📗 7.2 - Crear y escalar un servicio en Swarm  
+Con este ejercicio aprenderemos a ejecutar un servicio en el clúster y escalarlo.  
+
+**1. Creamos un servicio replicado**  
+```powershell
+docker service create --name web --replicas 2 -p 8080:80 nginx
+```  
+> [!Note]
+> `--replicas 2`: Inicia 2 instancias del servicio.  
+> `-p 8080:80`: Expone el servicio en el puerto 8080 del host.  
+
+**2. Verificamos el estado del servicio**  
+```powershell
+docker service ls
+```  
+✅ Debería mostrar **el servicio `web` con 2 réplicas en ejecución**.  
+
+**3. Escalamos el servicio a 4 instancias**  
+```powershell
+docker service scale web=4
+```
+🔹 Verificamos nuevamente:  
+```powershell
+docker service ps web
+```
+✅ Ahora debería haber **4 instancias activas** del servicio `web`.  
+
+## 📗 7.3 - Probar el balanceo de carga  
+Con este ejercicio comprobaremos como Swarm distribuye las peticiones entre los contenedores.  
+
+**1. Hacemos varias peticiones a la aplicación**  
+```powershell
+for ($i=0; $i -lt 10; $i++) { Invoke-WebRequest -Uri http://localhost:8080 -UseBasicParsing | Select-String "Welcome" }
+```
+✅ Cada petición será atendida por una instancia diferente del servicio.  
+
+**2. Reducimos el número de instancias**  
+```powershell
+docker service scale web=2
+```  
+🔹 Swarm eliminará automáticamente los contenedores sobrantes.  
+
+**3. Eliminamos el servicio**  
+```powershell
+docker service rm web
+```  
+
+## 📗 7.4 - Añadir nodos adicionales al clúster Swarm (ejercicio grupal)  
+Hasta el momento hemos visto como funcionaba un sistema distribuido pero faltaría por ver como sería un proceso de clusterización. Con este ejercicio vamos a agregar más nodos al clúster y distribuir los contenedores en múltiples máquinas virtuales.  
+
+**1. Un participante actuará como nodo `manager` y obtendrá el comando para añadir otros nodos `worker` al clúster.**  
+Desde el nodo **manager**, ejecutaremos:  
+```powershell
+docker swarm join-token worker
+```
+✅ Esto devolverá un comando parecido a:  
+`docker swarm join --token SWMTKN-1-xxx <IP_DEL_MANAGER>:2377`  
+
+**2. Agregamos nuevos nodos al clúster.**  
+El participante que esté actuando como **manager** deberá compartir el código generado en el paso anterior con el resto de participantes.  
+En cada **VM adicional** que actuará como **worker**, ejecutaremos el comando compartido por el **manager**.  
+
+**3. Verificamos que los nodos están conectados.**  
+Desde el nodo **manager**, ejecutaremos:
+```powershell
+docker node ls
+```  
+✅ Ahora deberíamos ver varios nodos (manager y workers) en el clúster.  
+
+**4. Redistribuiremos la aplicación en múltiples nodos.**  
+Desde el nodo **manager**, lanzaremos el siguiente comando:  
+```powershell
+docker service scale web=6
+```
+💡 Swarm balanceará automáticamente las nuevas instancias entre los nodos disponibles. Cada nodo **worker** podrá ver desde **docker desktop** o la `consola`, como se están desplegando contenedores docker nuevos desde su VM.  
+
+## 📗 7.5 - Desplegar servicio de monitorización en Swarm montado con Docker Compose  
+Para rematar el módulo y el curso, configuraremos cAdvisor, Prometheus y Grafana para monitorear el clúster Swarm y poner en práctica todo lo visto durante estos 3 días.  
+Para este ejercicio usaremos los recursos de la carpeta 📂 **`./7.0_swarm_monitoring/`** en nuestro repositorio.
+
+**1. Revisamos el archivo `docker-compose.yml` e identificamos todos los elementos.**
+- ¿Hay volúmenes montados?
+- ¿Se va a crear alguna red?
+- ¿Cuantos servicios identificas?
+
+**2. Desplegamos la monitorización en Swarm.**  
+Para poder desplegar la monitorización, necesitaremos antes realizar ciertos ajustes en Docker Desktop para que publique sus métricas. Para ello abriremos nuestra app de Docker Desktop e iremos a **`Settings --> Docker Engine`**.  
+Aquí deberemos cambiar algun ajuste, en concreto el de `experimental` y, además, añadir un parámetro nuevo **`metrics-addr`**. Quedaría algo así:  
+```json
+{
+  "builder": {
+    "gc": {
+      "defaultKeepStorage": "20GB",
+      "enabled": true
+    }
+  },
+  "experimental": true,
+  "metrics-addr": "127.0.0.1:9323"
+}
+```
+Ahora pulsamos el botón de **`Apply & restart`** y volvemos a nuestra consola.  
+Ejecutamos:  
+```powershell
+docker stack deploy -c docker-compose.yml monitoring
+```
+✅ Si todo ha ido bien, veremos como poco a poco comienza a desplegarse toda nuestra solución de monitorización y podremos acceder a las siguientes direcciones desde nuestro navegador:  
+- **cAdvisor:** `http://localhost:8081`  
+- **Prometheus:** `http://localhost:9090`  
+- **Grafana:** `http://localhost:3000`  
