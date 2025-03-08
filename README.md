@@ -28,7 +28,7 @@ En caso de **no tener Git instalado** también puedes descargarte el repositorio
 
   Esto descargará los archivos del proyecto en tu directorio actual.
 
-# 📗 1- Ejercicio Variables de entorno
+# 📗 1 - Ejercicio Variables de entorno
 En este ejercicio práctico aprenderás a usar las variables de entorno en Docker. Veremos además, como consultar las variables que tiene nuestro contenedor, tanto las que nosotros le indiquemos como las que vengan de base en la imagen.
 
 **1. Inspeccionar imagen ngninx**  
@@ -78,7 +78,7 @@ Una vez que veamos que está correcta podemos eliminar los contenedores:
 > [!Note]
 > - `-f` para forzar. De esta forma evito tener que parar previamente el contenedor.
 
-# 📗 2- Ejercicio Volúmenes Docker  
+# 📗 2 - Ejercicio Volúmenes Docker  
 En este ejercicio práctico aprenderás a usar los volúmenes en Docker. Veremos las dos opciones disponibles: Docker Volume y Bind Mount.
 Al igual que en el ejercicio anterior, si no conocemos el contenedor que vamos a ejecutar, vamos a la documentación e identificamos los volúmenes que usa.
 También aprenderemos a copiar archivos de mi local al contenedor y viceversa.
@@ -369,11 +369,11 @@ CMD ["bash"]
 
 ## 📗 5.3 - Análisis de Vulnerabilidades en Imágenes Docker con Trivy  
 Con este ejercicio vamos a escanear una imagen Docker en busca de vulnerabilidades, este servicio lo ejecutaremos dentro de un contenedor.  
-### 1. Ejecutaremos Trivy desde un contenedor para analizar una imagen  
+**1. Ejecutaremos Trivy desde un contenedor para analizar una imagen**  
 ```bash
 docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image nginx:latest
 ```
-### 2. Analizamos los resultados  
+**2. Analizamos los resultados**  
 * Se mostrarán vulnerabilidades detectadas, clasificadas por severidad.
 * Si aparecen vulnerabilidades críticas, buscar una versión más segura de la imagen.
 
