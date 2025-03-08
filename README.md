@@ -139,7 +139,7 @@ Para usar la opción de Bind Mount, vamos a crear una carpeta que se llame **sta
 4. `docker inspect web-ngninx`
 
 > [!Note]
-> Si queremos proteger los archivos del volumen para que sean solo lectura añadimos :ro al final:  
+> Si queremos proteger los archivos del volumen para que sean solo lectura añadimos `:ro` al final:  
 > `docker run -d --name web-nginx -v $PWD/static:/usr/share/nginx/html:ro -p 81:80 nginx:alpine`
 
 # 📗 3 - Ejercicio Redes Docker
@@ -218,7 +218,7 @@ services:
 networks:
   name:
     driver: bridge
-```
+```  
 
 Cuando tengas terminado el archivo **docker-compose.yml**, sitúate en el directorio donde lo tengas guardado y lanza el comando:  
 `docker compose up`
@@ -249,8 +249,8 @@ SONAR_JDBC_PASSWORD: postgres
 En este último ejercicio vamos a crear una aplicación de votos. Para ello crearemos un **docker-compose.yml** con varios servicios, volúmenes, redes, etc., que contenga todo lo visto anteriormente.  
     
 El diagrama de la aplicación es el siguiente:  
-   
-![alt text](voting-app.drawio.png)
+
+![voting-app drawio](https://github.com/user-attachments/assets/d57feedd-64ea-463e-b028-9ece34b456e4)  
 
 Las imágenes que vamos a usar son las siguientes:  
 1. postgres
