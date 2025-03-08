@@ -31,17 +31,17 @@ En caso de **no tener Git instalado** también puedes descargarte el repositorio
 # 📗 1- Ejercicio Variables de entorno
 En este ejercicio práctico aprenderás a usar las variables de entorno en Docker. Veremos además, como consultar las variables que tiene nuestro contenedor, tanto las que nosotros le indiquemos como las que vengan de base en la imagen.
 
-### 1. Inspeccionar imagen ngninx
+**1. Inspeccionar imagen ngninx**  
 Comenzaremos realizando una búsqueda de la imagen que vamos a usar durante el curso. Se trata de una imagen [nginx](https://hub.docker.com/_/nginx). Dentro de la referencia de esta imagen, podemos ver la descripción de la imagen, como usarla, etc., y en la parte de tags podemos ver las distintas versiones que hay para esta imagen. Como nosotros queremos que sea una imagen liviana, nos centraremos en usar la imagen de nginx basada en alpine.
 
-### 2. Identificarnos en el registro
+**2. Identificarnos en el registro**  
 Para poder trabajar durante el curso con nuestro repositorio de Docker HUB, lo primero que haremos será identificarnos en el repositorio. Como las credenciales se guardan en cache, quedaremos logeados para el resto de sesiones.
 
 - Regístrate con tu usuario y contraseña de Docker Hub  
 `docker login docker.io -u cursodockerfuturs`
 - Accede usando la contraseña proporcionada
 
-### 3. Levantar el contenedor
+**3. Levantar el contenedor**  
 Primero levantaremos el contenedor como veníamos haciendo hasta ahora:
 - `docker run -d --name web-ngninx -p 81:80 nginx:alpine`  
 
@@ -78,21 +78,21 @@ Una vez que veamos que está correcta podemos eliminar los contenedores:
 > [!Note]
 > - `-f` para forzar. De esta forma evito tener que parar previamente el contenedor.
 
-# 📗 2- Ejercicio Volúmenes Docker
+# 📗 2- Ejercicio Volúmenes Docker  
 En este ejercicio práctico aprenderás a usar los volúmenes en Docker. Veremos las dos opciones disponibles: Docker Volume y Bind Mount.
 Al igual que en el ejercicio anterior, si no conocemos el contenedor que vamos a ejecutar, vamos a la documentación e identificamos los volúmenes que usa.
 También aprenderemos a copiar archivos de mi local al contenedor y viceversa.
 
-### 1. Inspeccionar imagen ngninx
+**1. Inspeccionar imagen ngninx**  
 Inspecciona la imagen [nginx](https://hub.docker.com/_/nginx) para determinar cuál es la ruta donde guarda los datos estáticos. Esa ruta será la que nosotros usemos como volumen.
 
-### 2. Levantar contenedor docker
+**2. Levantar contenedor docker**  
 Ahora levantaremos un contenedor docker como hemos hecho en el ejercicio anterior:  
 - `docker run -d --name web-nginx -p 81:80 nginx:alpine`
 
 Comprobamos que se levanta la aplicación correctamente en http://localhost:81
 
-### 3. Editar aplicación
+**3. Editar aplicación**  
 Ahora entraremos dentro del contenedor que hemos creado para personalizar los datos de mi aplicación.
 
 - `docker exec -it web-nginx sh`
@@ -102,14 +102,13 @@ Ahora entraremos dentro del contenedor que hemos creado para personalizar los da
 
 Podemos recargar de nuevo nuestra aplicación para comprobar que se ha editado correctamente: http://localhost:81
 
-### 4. Terminar aplicación
+**4. Terminar aplicación**  
 Ahora vamos a salir del contenedor y a borrarlo para crearlo de nuevo. (Paso 2)
 
-**¿Qué ha pasado?**
+   **¿Qué ha pasado?**  
+   En este punto vemos la importancia de la persistencia de datos. Es por eso que en Docker solemos trabajar con volúmenes.
 
-En este punto vemos la importancia de la persistencia de datos. Es por eso que en Docker solemos trabajar con volúmenes.
-
-### 5. Crear Docker volume
+**5. Crear Docker volume**  
 Primero vamos a crear un docker volume (host) y lo asociaremos a nuestra aplicación a la hora de crear el contenedor de nuevo.
 
 1. `docker volume create web`
@@ -118,21 +117,21 @@ Primero vamos a crear un docker volume (host) y lo asociaremos a nuestra aplicac
 `docker run -d --name web-nginx -v web:/usr/share/nginx/html -p 81:80 nginx:alpine`
 4. Inspeccionamos la imagen para ver la parte **Mounts**: `docker inspect web-nginx`
 
-### 6. Creamos un archivo local
+**6. Creamos un archivo local**  
 Ahora vamos a crear un archivo en local **index.html** y lo vamos a copiar dentro de la ruta del contenedor.
 
 1. `echo "<h1>hola desde contenedor</h1>" >index.html`
 2. `docker cp index.html web-ngninx:/usr/share/nginx/html`
 
-Comprobamos URL http://localhost:81 y repetimos paso 4.
+Comprobamos URL `http://localhost:81` y repetimos paso 4.
 
-### Opcional
+**Opcional**  
 Puedes hacer la prueba de crear un nuevo contenedor (usando otro nombre y otro puerto) usando el mismo volumen. Podrás comprobar que la aplicación que se levanta tiene directamente la información que hemos añadido previamente.
 
 Si no vamos a usar más el volumen y queremos borrarlo: `docker volume rm web`
 
-### 7. Bind Mount
-Para usar la opción de Bind Mount, vamos a crear una carpeta que se llame **static** en nuestra ruta actual. Dentro de esa ruta copiaremos un nuevo archivo **index.html** donde editaremos la información que aparecerá en la web. Luego crearemos el contenedor mapeando la nueva ruta e inspeccionaremos el tipo de volumen que aparece en el contenedor.
+**7. Bind Mount**  
+Para usar la opción de Bind Mount, vamos a crear una carpeta que se llame **static** en nuestra ruta actual. Dentro de esa ruta copiaremos un nuevo archivo **index.html** donde editaremos la información que aparecerá en la web. Luego crearemos el contenedor mapeando la nueva ruta e inspeccionaremos el tipo de volumen que aparece en el contenedor.  
 
 1. `mkdir static`
 2. `echo "<h1>hola desde Bind Mount</h1>" >static/index.html`
@@ -146,37 +145,36 @@ Para usar la opción de Bind Mount, vamos a crear una carpeta que se llame **sta
 # 📗 3 - Ejercicio Redes Docker
 En este ejercicio práctico aprenderás a usar las redes en Docker. Veremos los tipos de redes que hay, y su importancia para la conexión de los contenedores.
 
-### 1. Creación de red 
+**1. Creación de red**  
 Antes de crear nuestra propia red en Docker, vamos a echar un vistazo a lo que tenemos instalado por defecto. Para ello ejecutaremos el siguiente comando:  
 `docker network ls`
 
-Aquí podemos ver los 3 tipos de red que hay por defecto:
-- **Bridge:** la red por defecto. Se usa para que los contenedores puedan comunicarse. Se usa con mapeo de puertos (`-p`)
-- **Host:** la red del host directamente. No asigna IP al contenedor. No hay que redireccionar puertos.
-- **None:** el contenedor no tendría acceso a ninguna red. Para tareas seguras donde no necesitamos comunicación externa.
+   Aquí podemos ver los 3 tipos de red que hay por defecto:
+   - **Bridge:** la red por defecto. Se usa para que los contenedores puedan comunicarse. Se usa con mapeo de puertos (`-p`)
+   - **Host:** la red del host directamente. No asigna IP al contenedor. No hay que redireccionar puertos.
+   - **None:** el contenedor no tendría acceso a ninguna red. Para tareas seguras donde no necesitamos comunicación externa.
 
-Ahora si, crearemos nuestra primera red de docker:  
-- `docker network create prueba-red`
-- `docker network ls`
+   Ahora si, crearemos nuestra primera red de docker:  
+   - `docker network create prueba-red`
+   - `docker network ls`
 
-### 2. Levantar aplicación
+**2. Levantar aplicación**  
 Para este ejercicio hemos creado una imagen basada en un guestbook. Vamos a levantar una instancia de la aplicación para ver cómo funciona:  
 `docker run -d --name guest -p 8081:5000 cursodockerfuturs/guestbook:1.0.0`
 
 Comprobamos que la aplicación se ha levantado correctamente en la URL http://localhost:8081
 
-### 3. Levantar redis
+**3. Levantar redis**  
 Como hemos visto, la aplicación se queda esperando una conexión. Para ello vamos a hacer uso de la herramienta Redis, con una imagen liviana basada en alpine. El puerto por defecto de la aplicación de Redis es el **6379**, pero como nosotros no necesitamos acceder, no mapearemos ningún puerto:  
 `docker run -d --name redis redis:alpine`
 
 Comprobamos de nuevo la aplicación para ver si engancha correctamente el Redis.
 
-**¿Qué ha pasado?**
+   **¿Qué ha pasado?**  
+   Vamos a eliminar los contenedores previamente creados para poder crearlos de nuevo correctamente:  
+   `docker rm -f redis guest`
 
-Vamos a eliminar los contenedores previamente creados para poder crearlos de nuevo correctamente:  
-`docker rm -f redis guest`
-
-### 4. Levantar aplicación y redis bajo misma red
+**4. Levantar aplicación y redis bajo misma red**  
 De nuevo, vamos a repetir los pasos 2 y 3, pero esta vez usando la red que hemos creado previamente en el paso 1.  
 Para ello primero levantaremos la aplicación:  
 `docker run -d --name guest --network prueba-red -p 8081:5000 cursodockerfuturs/guestbook:1.0.0`
@@ -188,7 +186,7 @@ Levantamos ahora nuestro servicio Redis bajo la misma red:
 
 Comprobamos de nuevo la aplicación y vemos que la conexión ya se ha establecido.
 
-### Opcional
+**Opcional**  
 Podemos entrar dentro del contenedor de redis para monitorear los logs cada vez que escribamos algo en nuestro guestbook:  
 - `docker exec -it redis redis-cli`  
 - `monitor`
@@ -199,7 +197,7 @@ En este ejercicio crearemos nuestro primer Docker Compose en el que levantaremos
 Deberemos especificar los servicios, los nombres de contenedor, las imágenes, los puertos, la red, etc.  
 
 Para ello deberemos conocer la estructura de un **docker-compose.yml**:
-```docker-compose.yml
+```dockerfile
 services:
   service_name:
     container_name: name
@@ -232,14 +230,14 @@ Las imágenes que usaremos son las siguientes:
 1. postgres
 2. sonarqube
 
-### Paso 1: Inspeccionar imágenes
+**Paso 1: Inspeccionar imágenes**  
 Inspecciona las imágenes en Docker Hub para averiguar lo necesario de dichas imágenes.
 
-### Paso 2: Crea tu docker-compose.yml
-Del mismo modo que en el ejercicio anterior, crea tu archivo **docker-compose.yml** y cuando creas que lo tienes terminado, lanza el comando:  
+**Paso 2: Crea tu `docker-compose.yml`**  
+Del mismo modo que en el ejercicio anterior, crea tu archivo `docker-compose.yml` y cuando creas que lo tienes terminado, lanza el comando:  
 `docker-compose up`
 
-### Datos necesarios
+**Datos necesarios**  
 Las variables de entorno para sonarqube son las siguientes:  
 ```bash
 SONAR_JDBC_URL: jdbc:postgresql://db:5432/postgres
@@ -262,15 +260,14 @@ Las imágenes que vamos a usar son las siguientes:
 5. cursodockerfuturs/voting-app:result-2.0.0
 6. cursodockerfuturs/voting-app:vote-2.0.0
 
-### Datos necesarios
+**Datos necesarios**  
 Las variables de entorno para pgadmin son las siguientes:  
 ```bash
 PGADMIN_DEFAULT_EMAIL: "prueba@gmail.com"
 PGADMIN_DEFAULT_PASSWORD: "prueba1234"
 ```
 
-### Uso de pgadmin
-
+**Uso de pgadmin**  
 1. Nos logeamos con las credenciales que hemos definido en el docker-compose.yml
 2. Click derecho en Servers > Register > Server
 3. Podemos darle el nombre que queramos
