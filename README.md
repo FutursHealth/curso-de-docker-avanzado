@@ -249,8 +249,8 @@ SONAR_JDBC_PASSWORD: postgres
 En este último ejercicio vamos a crear una aplicación de votos. Para ello crearemos un **docker-compose.yml** con varios servicios, volúmenes, redes, etc., que contenga todo lo visto anteriormente.  
     
 El diagrama de la aplicación es el siguiente:  
-
-![voting-app drawio](https://github.com/user-attachments/assets/d57feedd-64ea-463e-b028-9ece34b456e4)  
+   
+![Voting_app](/0.0_resources/voting-app.drawio.png)
 
 Las imágenes que vamos a usar son las siguientes:  
 1. postgres
@@ -488,7 +488,7 @@ Si todo funciona bien, se verán los logs recibidos desde `app-logs`.
 docker stop fluentd app-logs && docker rm fluentd app-logs
 ```
 ⚠️ En este paso nos hemos encontrado que con Docker Desktop for Windows en muchas ocasiones se colgaba intentando parar el contenedor de `app-logs`, si se diera el paso lo que tenemos que hacer es **reiniciar el engine** y ambos contenedores quedarán parados y listos para ser eliminados.  
-![image](https://github.com/user-attachments/assets/9e997eb7-ad99-406d-bf00-3c754c342a63)  
+![Restart_Engine](/0.0_resources/docker_desktop.png)  
 
 
 
