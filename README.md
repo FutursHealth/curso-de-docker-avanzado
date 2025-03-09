@@ -639,3 +639,12 @@ docker stack deploy -c docker-compose.yml monitoring
 - **cAdvisor:** `http://localhost:8081`  
 - **Prometheus:** `http://localhost:9090`  
 - **Grafana:** `http://localhost:3000`  
+
+Para poder visualizar toda la info en Grafana seguiremos los siguientes pasos:
+1. Una vez dentro del panel de control de Grafana `http://localhost:3000` nos iremos a **`Connections > Data Sources`**.  
+2. Click en **`Add data source`**.  
+3. Seleccionamos **`Prometheus`**.  
+4. En **Prometheus server URL** ponemos: `http://prometheus:9090` y le damos a **Save & Test** (abajo del todo).  
+5. Ahora nos vamos a **`Dashboards > New > Import`**
+6. Usamos el ID **1860** + **Load**
+7. En la nueva pantalla, abajo en **Prometheus** seleccionamos **`prometheus`** y pulsamos **Import**.  
