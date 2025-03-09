@@ -488,7 +488,8 @@ Si todo funciona bien, se verán los logs recibidos desde `app-logs`.
 ```powershell
 docker stop fluentd app-logs && docker rm fluentd app-logs
 ```
-⚠️ En este paso nos hemos encontrado que con Docker Desktop for Windows en muchas ocasiones se colgaba intentando parar el contenedor de `app-logs`, si se diera el paso lo que tenemos que hacer es **reiniciar el engine** y ambos contenedores quedarán parados y listos para ser eliminados.  
+⚠️ En este paso nos hemos encontrado que con Docker Desktop for Windows en muchas ocasiones se colgaba intentando parar el contenedor de `app-logs`, si se diera el caso, lo que tenemos que hacer es **reiniciar el engine** y ambos contenedores quedarán parados y listos para ser eliminados.  
+
 ![Restart_Engine](/0.0_resources/docker_desktop.png)  
 
 # 📚 7 - Sistemas distribuidos y de clustering
@@ -519,6 +520,10 @@ Para comprobar el estado del clúster:
 docker info | Select-String "Swarm"
 ```
 🔹 Salida esperada: `Swarm: active`  
+
+> [!Note]
+> Una vez iniciamos el servicio Swarm este se queda activado siempre, si deseáramos parar el servicio de Swarm deberemos ejecutar el siguietne comando:  
+> **`docker swarm leave --force`**: Esto desactiva Swarm completamente y elimina la configuración del clúster si la hubiese.  
 
 ## 📗 7.2 - Crear y escalar un servicio en Swarm  
 Con este ejercicio aprenderemos a ejecutar un servicio en el clúster y escalarlo.  
@@ -586,8 +591,13 @@ En cada **VM adicional** que actuará como **worker**, ejecutaremos el comando c
 Desde el nodo **manager**, ejecutaremos:
 ```powershell
 docker node ls
-```  
+```
+
 ✅ Ahora deberíamos ver varios nodos (manager y workers) en el clúster.  
+
+> [!Note]
+> Si queremos sacar un nodo **worker** del clúster bastaría con ejecutar el siguiente comando desde el mismo:  
+> `docker swarm leave`  
 
 **4. Redistribuiremos la aplicación en múltiples nodos.**  
 Desde el nodo **manager**, lanzaremos el siguiente comando:  
@@ -598,7 +608,7 @@ docker service scale web=6
 
 ## 📗 7.5 - Desplegar servicio de monitorización en Swarm montado con Docker Compose  
 Para rematar el módulo y el curso, configuraremos cAdvisor, Prometheus y Grafana para monitorear el clúster Swarm y poner en práctica todo lo visto durante estos 3 días.  
-Para este ejercicio usaremos los recursos de la carpeta 📂 **`./7.0_swarm_monitoring/`** en nuestro repositorio.
+Para este ejercicio usaremos los recursos de la carpeta 📂 **`./7.5_swarm_monitoring/`** en nuestro repositorio.
 
 **1. Revisamos el archivo `docker-compose.yml` e identificamos todos los elementos.**
 - ¿Hay volúmenes montados?
