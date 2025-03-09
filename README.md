@@ -607,7 +607,7 @@ docker service scale web=6
 💡 Swarm balanceará automáticamente las nuevas instancias entre los nodos disponibles. Cada nodo **worker** podrá ver desde **docker desktop** o la `consola`, como se están desplegando contenedores docker nuevos desde su VM.  
 
 ## 📗 7.5 - Desplegar servicio de monitorización en Swarm montado con Docker Compose  
-Para rematar el módulo y el curso, configuraremos cAdvisor, Prometheus y Grafana para monitorear el clúster Swarm y poner en práctica todo lo visto durante estos 3 días.  
+Para finalizar el módulo y el curso, vamos a poner en práctica todo lo visto durante este y vamos a montar un servicio de monitorización en nuestro clúster Swarm usando una plantilla de Docker Compose. En ella, configuraremos las herramientas como cAdvisor, Prometheus y Grafana para llevar a cabo la monitorización del clúster.  
 Para este ejercicio usaremos los recursos de la carpeta 📂 **`./7.5_swarm_monitoring/`** en nuestro repositorio.
 
 **1. Revisamos el archivo `docker-compose.yml` e identificamos todos los elementos.**
@@ -617,7 +617,7 @@ Para este ejercicio usaremos los recursos de la carpeta 📂 **`./7.5_swarm_moni
 
 **2. Desplegamos la monitorización en Swarm.**  
 Para poder desplegar la monitorización, necesitaremos antes realizar ciertos ajustes en Docker Desktop para que publique sus métricas. Para ello abriremos nuestra app de Docker Desktop e iremos a **`Settings --> Docker Engine`**.  
-Aquí deberemos cambiar algun ajuste, en concreto el de `experimental` y, además, añadir un parámetro nuevo **`metrics-addr`**. Quedaría algo así:  
+Aquí deberemos cambiar algún ajuste, en particular el de `experimental` y, además, añadir el parámetro de **`metrics-addr`**. Debería quedar tal que así:  
 ```json
 {
   "builder": {
