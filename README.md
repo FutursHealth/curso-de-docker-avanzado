@@ -647,4 +647,10 @@ Para poder visualizar toda la info en Grafana seguiremos los siguientes pasos:
 4. En **Prometheus server URL** ponemos: `http://prometheus:9090` y le damos a **Save & Test** (abajo del todo).  
 5. Ahora nos vamos a **`Dashboards > New > Import`**
 6. Usamos el ID **1860** + **Load**
-7. En la nueva pantalla, abajo en **Prometheus** seleccionamos **`prometheus`** y pulsamos **Import**.  
+7. En la nueva pantalla, abajo en **Prometheus** seleccionamos **`prometheus`** y pulsamos **Import**.
+
+## 🖐️ Bye bye...
+Una vez finalizado todos los ejercicios
+`docker swarm leave --force`
+ver si queda algun contenedor activo y pararlo
+`docker prune system -a`
