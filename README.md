@@ -34,12 +34,18 @@ En caso de **no tener Git instalado** también puedes descargarte el repositorio
 |-----------|---------|
 | `docker run -e USUARIO=prueba ubuntu` | Tag -e o --env para declarar una variable de entorno al crear un contenedor |
 :Variables de entorno
+
+| Comando | Descripción |
+|-----------|---------|
 | `docker volume create <name>` | Crea un volumen con el nombre indicado |
 | `docker volume rm <name>` | Elimina el volumen indicado (si no está siendo usado)|
 | `docker volume prune` | Elimina los volumenes que no están siendo usados por ningún contenedor |
 | `docker volume ls` | Lista los volumenes creados con información adicional |
 | `docker volume inspect <name>` | Nos dará información detallada del volumen indicado |
 :Docker Volume
+
+| Comando | Descripción |
+|-----------|---------|
 | `docker network create <name>` | Crea una red con el nombre indicado y driver por defecto (bridge) |
 | `docker network rm <name>` | Elimina la red indicada (si no está siendo usada) |
 | `docker network prune` | Elimina las redes que no están siendo usados por ningún contenedor |
