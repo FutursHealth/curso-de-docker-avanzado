@@ -49,6 +49,13 @@ En caso de **no tener Git instalado** también puedes descargarte el repositorio
 | `docker network prune` | Elimina las redes que no están siendo usados por ningún contenedor |
 | `docker netowrk ls` | Lista las redes creadas con información adicional |
 | `docker network inspect <name>` | Nos dará información detallada de la red indicada |
+### Docker Compose
+| Comando | Descripción |
+|-----------|---------|
+| `docker-compose up` | Crea los contenedores descritos en el docker-compose.yml |
+| `docker-compose up -d` | Crea los contenedores descritos en el docker-compose.yml en segundo plano (sin mostrar logs) |
+| `docker-compose stop` | Detiene los contenedores previamente levantados |
+| `docker-compose build` | Ejecuta (si está definido) el proceso de construcción de una imagen que vaya a ser usada en mi docker-compose.yml a partir de los ficheros Dockerfile que le indique |
 
 # 📗 1 - Ejercicio Variables de entorno
 En este ejercicio práctico aprenderás a usar las variables de entorno en Docker. Veremos además, como consultar las variables que tiene nuestro contenedor, tanto las que nosotros le indiquemos como las que vengan de base en la imagen.
