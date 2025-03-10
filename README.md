@@ -72,7 +72,7 @@ Para poder trabajar durante el curso con nuestro repositorio de Docker HUB, lo p
 
 **3. Levantar el contenedor**  
 Primero levantaremos el contenedor como veníamos haciendo hasta ahora:
-- `docker run -d --name web-ngninx -p 81:80 nginx:alpine`  
+- `docker run -d --name web-nginx -p 81:80 nginx:alpine`  
 
   > 💡**RECORDATORIO**
   > - `-d` para correr en segundo plano
@@ -83,7 +83,7 @@ Primero levantaremos el contenedor como veníamos haciendo hasta ahora:
 Accedemos a nuestra URL http://localhost:81 para comprobar nuestra aplicación web.
 
 Ahora vamos a levantar de nuevo el contenedor, pero asignándole una variable de entorno:  
-`docker run -d --name web-ngninx -e PRUEBA=1234 -p 81:80 nginx:alpine`
+`docker run -d --name web-nginx -e PRUEBA=1234 -p 81:80 nginx:alpine`
 
 >*¿No has podido?*
 
@@ -93,16 +93,16 @@ Para poder consultar las variables de entorno que tenemos en nuestro contenedor,
 
 **Opción 1**  
 Entramos al contenedor que hemos creado y mostramos las variables:
-- `docker exec -it web-ngninx2 sh`
+- `docker exec -it web-nginx2 sh`
 - `echo $PRUEBA`
 - `printenv`
 
 **Opción 2**  
-Inspeccionamos el contenedor docker que hemos creado con el comando `docker inspect web-ngninx2`.  
+Inspeccionamos el contenedor docker que hemos creado con el comando `docker inspect web-nginx2`.  
 Con esta opción además podremos ver mucha más información útil como el ID, argumentos que tiene, el estado del contenedor, la imagen, el puerto, los volúmenes, variables de entorno, networking, etc...
 
 Una vez que veamos que está correcta podemos eliminar los contenedores:  
-- `docker rm -f web-nginx web-ngninx2`
+- `docker rm -f web-nginx web-nginx2`
 
 > [!Note]
 > - `-f` para forzar. De esta forma evito tener que parar previamente el contenedor.
@@ -150,7 +150,7 @@ Primero vamos a crear un docker volume (host) y lo asociaremos a nuestra aplicac
 Ahora vamos a crear un archivo en local **index.html** y lo vamos a copiar dentro de la ruta del contenedor.
 
 1. `echo "<h1>hola desde contenedor</h1>" >index.html`
-2. `docker cp index.html web-ngninx:/usr/share/nginx/html`
+2. `docker cp index.html web-nginx:/usr/share/nginx/html`
 
 Comprobamos URL `http://localhost:81` y repetimos paso 4.
 
@@ -165,7 +165,7 @@ Para usar la opción de Bind Mount, vamos a crear una carpeta que se llame **sta
 1. `mkdir static`
 2. `echo "<h1>hola desde Bind Mount</h1>" >static/index.html`
 3. `docker run -d --name web-nginx -v $PWD/static:/usr/share/nginx/html -p 81:80 nginx:alpine`
-4. `docker inspect web-ngninx`
+4. `docker inspect web-nginx`
 
 > [!Note]
 > Si queremos proteger los archivos del volumen para que sean solo lectura añadimos `:ro` al final:  
