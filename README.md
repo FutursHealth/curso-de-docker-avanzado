@@ -646,11 +646,18 @@ Para poder visualizar toda la info en Grafana seguiremos los siguientes pasos:
 3. Seleccionamos **`Prometheus`**.  
 4. En **Prometheus server URL** ponemos: `http://prometheus:9090` y le damos a **Save & Test** (abajo del todo).  
 5. Ahora nos vamos a **`Dashboards > New > Import`**
-6. Usamos el ID **1860** + **Load**
+6. Usamos el ID **`1860`** + **Load**
 7. En la nueva pantalla, abajo en **Prometheus** seleccionamos **`prometheus`** y pulsamos **Import**.
 
-## 🖐️ Bye bye...
-Una vez finalizado todos los ejercicios
-`docker swarm leave --force`
-ver si queda algun contenedor activo y pararlo
-`docker prune system -a`
+# 🧽 Es la hora de la limpieza...
+Una vez finalizado todo, si queremos dejar nuestro equipo limpio lanzaremos los siguientes comandos:  
+- **`docker swarm leave --force`**: paramos el servicio de Swarm.  
+- **`docker stop $(docker ps -q)`**: con este comando pararemos todos los contenedores activos que no pertenecieran al servicio de Swarm.    
+- **`docker rm $(docker ps -aq)`**: una vez parados los contenedores, los borraremos con este comando.  
+- **`docker prune system -a`**: este comando hará una limpieza de todos los servicios residuales que queden en nuestro sistema (volúmenes, redes, imágenes, etc..).
+
+# 🫰 Y para finalizar ..  
+¡Gracias a todos por vuestro tiempo y dedicación durante este curso de Docker! Esperamos que hayáis encontrado útil todo lo aprendido y que os ayude en vuestros futuros proyectos. Si en algún momento os surge alguna duda o necesitáis aclaraciones, no dudéis en contactarnos.  
+Ha sido todo un placer compartir este aprendizaje con vosotros.  
+¡Nuevamente gracias y a seguir "dockerizando"! 🐳
+  
