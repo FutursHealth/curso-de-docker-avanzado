@@ -141,7 +141,7 @@ Ahora vamos a salir del contenedor y a borrarlo para crearlo de nuevo. (Paso 2)
 Primero vamos a crear un docker volume (host) y lo asociaremos a nuestra aplicación a la hora de crear el contenedor de nuevo.
 
 1. `docker volume create web`
-2. `docker volume web ls`
+2. `docker volume ls`
 3. Creamos de nuevo el contenedor:  
 `docker run -d --name web-nginx -v web:/usr/share/nginx/html -p 81:80 nginx:alpine`
 4. Inspeccionamos la imagen para ver la parte **Mounts**: `docker inspect web-nginx`
