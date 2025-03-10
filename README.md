@@ -51,7 +51,7 @@ En caso de **no tener Git instalado** también puedes descargarte el repositorio
 | `docker network inspect <name>` | Nos dará información detallada de la red indicada |
 ### Docker Compose
 | Comando | Descripción |
-|-----------|---------|
+|-------------------|--------------|
 | `docker-compose up` | Crea los contenedores descritos en el docker-compose.yml |
 | `docker-compose up -d` | Crea los contenedores descritos en el docker-compose.yml en segundo plano (sin mostrar logs) |
 | `docker-compose stop` | Detiene los contenedores previamente levantados |
