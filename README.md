@@ -29,12 +29,11 @@ En caso de **no tener Git instalado** también puedes descargarte el repositorio
   Esto descargará los archivos del proyecto en tu directorio actual.
 
 ## Comandos generales
-
+### Variables de entorno
 | Comando | Descripción |
 |-----------|---------|
 | `docker run -e USUARIO=prueba ubuntu` | Tag -e o --env para declarar una variable de entorno al crear un contenedor |
-:Variables de entorno
-
+### Docker Volume
 | Comando | Descripción |
 |-----------|---------|
 | `docker volume create <name>` | Crea un volumen con el nombre indicado |
@@ -42,8 +41,7 @@ En caso de **no tener Git instalado** también puedes descargarte el repositorio
 | `docker volume prune` | Elimina los volumenes que no están siendo usados por ningún contenedor |
 | `docker volume ls` | Lista los volumenes creados con información adicional |
 | `docker volume inspect <name>` | Nos dará información detallada del volumen indicado |
-:Docker Volume
-
+### Docker Network
 | Comando | Descripción |
 |-----------|---------|
 | `docker network create <name>` | Crea una red con el nombre indicado y driver por defecto (bridge) |
@@ -51,7 +49,6 @@ En caso de **no tener Git instalado** también puedes descargarte el repositorio
 | `docker network prune` | Elimina las redes que no están siendo usados por ningún contenedor |
 | `docker netowrk ls` | Lista las redes creadas con información adicional |
 | `docker network inspect <name>` | Nos dará información detallada de la red indicada |
-:Docker Network
 
 # 📗 1 - Ejercicio Variables de entorno
 En este ejercicio práctico aprenderás a usar las variables de entorno en Docker. Veremos además, como consultar las variables que tiene nuestro contenedor, tanto las que nosotros le indiquemos como las que vengan de base en la imagen.
