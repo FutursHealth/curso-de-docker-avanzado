@@ -533,7 +533,10 @@ Dado que enseñar algún sistema como pueden ser **Service Fabric** o **Kubernet
 🔹 Conceptos clave en Swarm:  
 - **Manager:** Nodo que coordina el clúster.  
 - **Worker:** Nodos que ejecutan los contenedores.  
-- **Service:** Definición de qué contenedor se ejecuta y cuántas réplicas.  
+- **Service:** Definición de qué contenedor se ejecuta y cuántas réplicas.
+
+![Docker_Swarm_Schema](/0.0_resources/swarm-diagram.png)  
+
 
 ## 📗 7.1 - Iniciar un clúster Docker Swarm en local  
 Con este ejercicio aprenderemos a configurar un clúster **Docker Swarm** en un solo nodo (modo desarrollo).  
