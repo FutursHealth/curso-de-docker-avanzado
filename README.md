@@ -530,6 +530,7 @@ Dado que enseñar algún sistema como pueden ser **Service Fabric** o **Kubernet
 - Es más **fácil de aprender** que Kubernetes.  
 - Permite hacer un **clúster en minutos** con comandos simples.  
 
+### 📎 Lista de comandos Swarm  
 | Comando                                | Descripción |
 |----------------------------------------|-------------|
 | `docker swarm init`                    | Inicializa un nuevo clúster de Swarm en el nodo actual. |
