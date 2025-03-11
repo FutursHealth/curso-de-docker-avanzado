@@ -629,6 +629,17 @@ docker service rm web
 ## 📗 7.4 - Añadir nodos adicionales al clúster Swarm (ejercicio grupal)  
 Hasta el momento hemos visto como funcionaba un sistema distribuido pero faltaría por ver como sería un proceso de clusterización. Con este ejercicio vamos a agregar más nodos al clúster y distribuir los contenedores en múltiples máquinas virtuales.  
 
+Antes de empezar tenemos que lanzar los siguientes comandos por consola para habilitar reglas en el firewall permitiendo que permitan tráfico swarm entre todos los nodos:
+```powershell
+New-NetFirewallRule -DisplayName "Allow ICMPv4" -Direction Inbound -Action Allow -Protocol ICMPv4
+```
+```powershell
+New-NetFirewallRule -DisplayName "Docker Swarm TCP" -Direction Inbound -Action Allow -Protocol TCP -LocalPort 2377,7946
+```
+```powershell
+New-NetFirewallRule -DisplayName "Docker Swarm UDP" -Direction Inbound -Action Allow -Protocol UDP -LocalPort 7946,4789
+```  
+
 **1. Un participante actuará como nodo `manager` y obtendrá el comando para añadir otros nodos `worker` al clúster.**  
 Desde el nodo **manager**, ejecutaremos:  
 ```powershell
