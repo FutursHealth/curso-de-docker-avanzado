@@ -250,7 +250,7 @@ networks:
 ```  
 
 Cuando tengas terminado el archivo **docker-compose.yml**, sitúate en el directorio donde lo tengas guardado y lanza el comando:  
-`docker compose up`
+`docker-compose up`
 
 ## 📗 4.2 - Creando mi herramienta de análisis de código
 En este ejercicio crearemos un servicio de SonarQube para análisis de código. Este servicio necesita una base de datos para funcionar. Es por ello que ahora vamos a poner en práctica todo lo aprendido anteriormente.  
