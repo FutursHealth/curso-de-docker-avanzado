@@ -31,11 +31,11 @@ En caso de **no tener Git instalado** también puedes descargarte el repositorio
 ## Comandos generales
 ### Variables de entorno
 | Comando | Descripción |
-|-----------|---------|
+|-------------------|-------------------|
 | `docker run -e USUARIO=prueba ubuntu` | Tag -e o --env para declarar una variable de entorno al crear un contenedor |
 ### Docker Volume
 | Comando | Descripción |
-|-----------|---------|
+|-------------------|-------------------|
 | `docker volume create <name>` | Crea un volumen con el nombre indicado |
 | `docker volume rm <name>` | Elimina el volumen indicado (si no está siendo usado)|
 | `docker volume prune` | Elimina los volumenes que no están siendo usados por ningún contenedor |
@@ -43,7 +43,7 @@ En caso de **no tener Git instalado** también puedes descargarte el repositorio
 | `docker volume inspect <name>` | Nos dará información detallada del volumen indicado |
 ### Docker Network
 | Comando | Descripción |
-|-----------|---------|
+|-------------------|-------------------|
 | `docker network create <name>` | Crea una red con el nombre indicado y driver por defecto (bridge) |
 | `docker network rm <name>` | Elimina la red indicada (si no está siendo usada) |
 | `docker network prune` | Elimina las redes que no están siendo usados por ningún contenedor |
@@ -51,7 +51,7 @@ En caso de **no tener Git instalado** también puedes descargarte el repositorio
 | `docker network inspect <name>` | Nos dará información detallada de la red indicada |
 ### Docker Compose
 | Comando | Descripción |
-|-------------------|--------------|
+|-------------------|-------------------|
 | `docker-compose up` | Crea los contenedores descritos en el docker-compose.yml |
 | `docker-compose up -d` | Crea los contenedores descritos en el docker-compose.yml en segundo plano (sin mostrar logs) |
 | `docker-compose stop` | Detiene los contenedores previamente levantados |
@@ -529,6 +529,27 @@ Dado que enseñar algún sistema como pueden ser **Service Fabric** o **Kubernet
 - Está **integrado en Docker** (no requiere instalar nada adicional).  
 - Es más **fácil de aprender** que Kubernetes.  
 - Permite hacer un **clúster en minutos** con comandos simples.  
+
+| Comando                                | Descripción |
+|----------------------------------------|-------------|
+| `docker swarm init`                    | Inicializa un nuevo clúster de Swarm en el nodo actual. |
+| `docker swarm join --token <TOKEN> <IP>:2377` | Une un nodo al clúster de Swarm especificado. |
+| `docker swarm leave`                    | Hace que un nodo abandone el clúster de Swarm. |
+| `docker node ls`                         | Muestra la lista de nodos en el clúster. |
+| `docker node inspect <NODO>`             | Muestra detalles de un nodo específico. |
+| `docker node promote <NODO>`             | Promueve un nodo a manager en el clúster. |
+| `docker node demote <NODO>`              | Degrada un nodo manager a worker. |
+| `docker service create --name <SERVICIO> <IMAGEN>` | Crea un nuevo servicio en el clúster. |
+| `docker service ls`                      | Muestra los servicios desplegados en el clúster. |
+| `docker service ps <SERVICIO>`           | Muestra las tareas de un servicio. |
+| `docker service inspect <SERVICIO>`      | Muestra detalles de un servicio. |
+| `docker service scale <SERVICIO>=<REPLICAS>` | Escala un servicio al número de réplicas especificado. |
+| `docker service update --image <IMAGEN> <SERVICIO>` | Actualiza la imagen de un servicio en ejecución. |
+| `docker service rm <SERVICIO>`           | Elimina un servicio del clúster. |
+| `docker stack deploy -c <ARCHIVO.YML> <NOMBRE>` | Despliega una pila de servicios definida en un archivo Compose. |
+| `docker stack ls`                        | Muestra las pilas desplegadas en el clúster. |
+| `docker stack ps <NOMBRE>`               | Muestra los servicios de una pila específica. |
+| `docker stack rm <NOMBRE>`               | Elimina una pila del clúster. |
 
 🔹 Conceptos clave en Swarm:  
 - **Manager:** Nodo que coordina el clúster.  
