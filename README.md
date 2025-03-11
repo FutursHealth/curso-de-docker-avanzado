@@ -525,7 +525,7 @@ docker stop fluentd app-logs && docker rm fluentd app-logs
 En este último módulo del curso de **Docker Avanzado** hemos aprendido qué son los sitemas distribuidos y de clustering, cuáles son los mas famosos, y qué beneficios nos aportan a la hora de trabajar con contenedores.  
 Dado que enseñar algún sistema como pueden ser **Service Fabric** o **Kubernetes** daría para otro curso entero, no queremos terminar este sin tener una primera aproximación usando una herramienta nativa de los propios desarrolladores de Docker, **Docker Swarm**.  
 
-📌 ¿Por qué Swarm para empezar?  
+📌 **¿Por qué Swarm para empezar?**  
 - Está **integrado en Docker** (no requiere instalar nada adicional).  
 - Es más **fácil de aprender** que Kubernetes.  
 - Permite hacer un **clúster en minutos** con comandos simples.  
@@ -549,9 +549,9 @@ Dado que enseñar algún sistema como pueden ser **Service Fabric** o **Kubernet
 | `docker stack deploy -c <ARCHIVO.YML> <NOMBRE>` | Despliega una pila de servicios definida en un archivo Compose. |
 | `docker stack ls`                        | Muestra las pilas desplegadas en el clúster. |
 | `docker stack ps <NOMBRE>`               | Muestra los servicios de una pila específica. |
-| `docker stack rm <NOMBRE>`               | Elimina una pila del clúster. |
+| `docker stack rm <NOMBRE>`               | Elimina una pila del clúster. |  
 
-🔹 Conceptos clave en Swarm:  
+🔹 **Conceptos clave en Swarm:**  
 - **Manager:** Nodo que coordina el clúster.  
 - **Worker:** Nodos que ejecutan los contenedores.  
 - **Service:** Definición de qué contenedor se ejecuta y cuántas réplicas.
