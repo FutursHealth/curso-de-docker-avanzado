@@ -423,7 +423,7 @@ Con este ejercicio vamos a aprender a monitorear el consumo de CPU, memoria, red
    Se mostrará información en tiempo real sobre el uso de **CPU, memoria, red y disco** del contenedor.  
 **3. Por último, detenemos el contenedor y verificamos que desaparece del monitoreo:**   
    ```powershell
-   docker stop test-monitoring && docker rm test-monitoring
+   docker rm -f test-monitoring
    ```
 Como hemos podido comprobar, `docker stats` es útil para **detectar contenedores que consumen demasiados recursos**, lo que podría afectar al rendimiento del sistema.  
 
@@ -443,7 +443,7 @@ Con este ejercicio vamos a aprender a ejecutar cAdvisor para obtener métricas d
    ```
 **4. Detenemos y eliminamos los contenedores**  
    ```powershell
-   docker stop cadvisor stress-container && docker rm cadvisor stress-container
+   docker rm -f cadvisor stress-container
    ```
 
 ## 📗 6.3 - Gestión de logs en Docker  
@@ -467,7 +467,7 @@ docker logs logger-container > logs.txt
 ```
 **5. Eliminamos el contenedor:**  
 ```powershell
-docker stop logger-container && docker rm logger-container
+docker rm -f logger-container
 ```
 Como podemos ver, Docker almacena logs por defecto en **JSON**, pero podemos acceder a ellos en tiempo real o guardarlos en archivos para análisis posterior.  
 
@@ -515,8 +515,8 @@ Si todo funciona bien, se verán los logs recibidos desde `app-logs`.
 
 **5. Detenemos y eliminamos los contenedores:**  
 ```powershell
-docker stop fluentd app-logs && docker rm fluentd app-logs
-```
+docker rm -f fluentd
+```  
 ⚠️ En este paso nos hemos encontrado que con Docker Desktop for Windows en muchas ocasiones se colgaba intentando parar el contenedor de `app-logs`, si se diera el caso, lo que tenemos que hacer es **reiniciar el engine** y ambos contenedores quedarán parados y listos para ser eliminados.  
 
 ![Restart_Engine](/0.0_resources/docker_desktop.png)  
