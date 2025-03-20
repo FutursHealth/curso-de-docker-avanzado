@@ -276,7 +276,7 @@ SONAR_JDBC_PASSWORD: postgres
 
 > [!Important]
 > La primera vez que accedemos al portal de Sonarqube nos pedirá usuario y contraseña. Por defecto son:   
-> - User: `admin`  Password: `admin`
+> - User: `admin`  Password: `admin`  
 > Una vez que hayáis accedido, os pedirá que la cambiéis. Podéis poner la misma otra vez o una nueva.
 
 ## 📗 4.3 - Voting-app
