@@ -274,11 +274,10 @@ SONAR_JDBC_USERNAME: postgres
 SONAR_JDBC_PASSWORD: postgres
 ```
 
-> [!Note]
+> [!Important]
 > La primera vez que accedemos al portal de Sonarqube nos pedirá usuario y contraseña. Por defecto son:   
-> - User: `admin`  
-> - Password: `admin`   
->Una vez que hayáis accedido, os pedirá que la cambiéis. Podéis poner la misma otra vez o una nueva.
+> - User: `admin`  Password: `admin`
+> Una vez que hayáis accedido, os pedirá que la cambiéis. Podéis poner la misma otra vez o una nueva.
 
 ## 📗 4.3 - Voting-app
 En este último ejercicio vamos a crear una aplicación de votos. Para ello crearemos un **docker-compose.yml** con varios servicios, volúmenes, redes, etc., que contenga todo lo visto anteriormente.  
