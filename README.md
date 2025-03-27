@@ -296,7 +296,7 @@ Las imágenes que vamos a usar son las siguientes:
 
 > [!Important]
 > Las imágenes de Voting App están diseñadas de tal manera que espera nombres de servicio exactos.  
-> Para que funcione correctamente, los nombres de los servicios de Redis y Postgres tienen que llamarse *redis* y *db* obligatoriamente.
+> Para que funcione correctamente, los nombres de los servicios de Redis y Postgres tienen que llamarse **redis** y **db** obligatoriamente.
 
 **Datos necesarios para PGadmin**  
 Las variables de entorno para pgadmin son las siguientes:  
