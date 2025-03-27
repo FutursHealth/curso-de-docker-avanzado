@@ -289,12 +289,16 @@ El diagrama de la aplicación es el siguiente:
 Las imágenes que vamos a usar son las siguientes:  
 1. postgres
 2. redis
-3. dpage/pgadmin4
+3. dpage/pgadmin4 (opcional)
 4. cursodockerfuturs/voting-app:worker-1.0.0
 5. cursodockerfuturs/voting-app:result-2.0.0
 6. cursodockerfuturs/voting-app:vote-2.0.0
 
-**Datos necesarios**  
+> [!Important]
+> Las imágenes de Voting App están diseñadas de tal manera que espera nombres de servicio exactos.  
+> Para que funcione correctamente, los nombres de los servicios de Redis y Postgres tienen que llamarse 'redis' y 'db' obligatoriamente.S
+
+**Datos necesarios para PGadmin**  
 Las variables de entorno para pgadmin son las siguientes:  
 ```bash
 PGADMIN_DEFAULT_EMAIL: "prueba@gmail.com"
