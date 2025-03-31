@@ -125,7 +125,7 @@ Comprobamos que se levanta la aplicación correctamente en http://localhost:81
 Ahora entraremos dentro del contenedor que hemos creado para personalizar los datos de mi aplicación.
 
 - `docker exec -it web-nginx sh`
-- `cd /usr/share/ngninx/html`
+- `cd /usr/share/nginx/html`
 - `ls`
 - `echo "<h1>HOLA MUNDO</h1>" > index.html`
 
