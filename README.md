@@ -60,7 +60,7 @@ En caso de **no tener Git instalado** también puedes descargarte el repositorio
 # 📗 1 - Ejercicio Variables de entorno
 En este ejercicio práctico aprenderás a usar las variables de entorno en Docker. Veremos además, como consultar las variables que tiene nuestro contenedor, tanto las que nosotros le indiquemos como las que vengan de base en la imagen.
 
-**1. Inspeccionar imagen ngninx**  
+**1. Inspeccionar imagen nginx**  
 Comenzaremos realizando una búsqueda de la imagen que vamos a usar durante el curso. Se trata de una imagen [nginx](https://hub.docker.com/_/nginx). Dentro de la referencia de esta imagen, podemos ver la descripción de la imagen, como usarla, etc., y en la parte de tags podemos ver las distintas versiones que hay para esta imagen. Como nosotros queremos que sea una imagen liviana, nos centraremos en usar la imagen de nginx basada en alpine.
 
 **2. Identificarnos en el registro**  
@@ -112,7 +112,7 @@ En este ejercicio práctico aprenderás a usar los volúmenes en Docker. Veremos
 Al igual que en el ejercicio anterior, si no conocemos el contenedor que vamos a ejecutar, vamos a la documentación e identificamos los volúmenes que usa.
 También aprenderemos a copiar archivos de mi local al contenedor y viceversa.
 
-**1. Inspeccionar imagen ngninx**  
+**1. Inspeccionar imagen nginx**  
 Inspecciona la imagen [nginx](https://hub.docker.com/_/nginx) para determinar cuál es la ruta donde guarda los datos estáticos. Esa ruta será la que nosotros usemos como volumen.
 
 **2. Levantar contenedor docker**  
