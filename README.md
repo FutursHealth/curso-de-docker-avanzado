@@ -287,8 +287,8 @@ El diagrama de la aplicación es el siguiente:
 ![Voting_app](/0.0_resources/voting-app.drawio.png)
 
 Las imágenes que vamos a usar son las siguientes:  
-1. postgres
-2. redis
+1. postgres:15-alpine
+2. redis:alpine
 3. dpage/pgadmin4 (opcional)
 4. cursodockerfuturs/voting-app:worker-1.0.0
 5. cursodockerfuturs/voting-app:result-2.0.0
